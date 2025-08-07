@@ -1,104 +1,46 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gutachter BAS – KFZ Gutachten & Fahrzeugbewertung</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Orbitron Font (neu eingefügt) -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Andere Schrift (kann bleiben, falls du sie an anderer Stelle brauchst) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    
-    <style>
-      /* Neue Schriftart für das ganze Projekt */
-      body {
-        font-family: 'Orbitron', sans-serif;
-      }
-  
-      .gradient-text {
-        background: linear-gradient(to right, #a18b56, #fff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-  
-      .gold-text {
-        color: #a18b56;
-      }
-  
-      @keyframes drive {
-        0% { transform: translateX(-100px); }
-        100% { transform: translateX(110vw); }
-      }
-  
-      .scene {
-        position: relative;
-        width: 600px;
-        height: 300px;
-        margin-top: 3rem;
-      }
-  
-      .car {
-        position: absolute;
-        bottom: 50px;
-        width: 100px;
-      }
-  
-      .car-left {
-        left: -120px;
-        animation: driveLeft 2s ease-in-out forwards;
-      }
-  
-      .car-right {
-        right: -120px;
-        animation: driveRight 2s ease-in-out forwards;
-      }
-  
-      .cloud {
-        position: absolute;
-        top: 50px;
-        left: 50%;
-        transform: translateX(-50%) scale(0);
-        opacity: 0;
-        animation: puff 1s ease-out 2s forwards;
-      }
-  
-      @keyframes driveLeft {
-        0% { left: -120px; }
-        100% { left: 220px; }
-      }
-  
-      @keyframes driveRight {
-        0% { right: -120px; }
-        100% { right: 220px; }
-      }
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gutachter BAS – KFZ Gutachten & Fahrzeugbewertung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-      
-      @keyframes puff {
-        0% { transform: translateX(-50%) scale(0); opacity: 0; }
-        100% { transform: translateX(-50%) scale(1.5); opacity: 1; }
-      }
+  <!-- Schriftarten -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
+  <!-- Custom Styles -->
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+    }
 
-      .scene {
-  position: relative;
-  width: 600px;
-  height: 300px;
-  margin-top: 3rem;
-  z-index: 10; /* Sicherstellen, dass es im Vordergrund bleibt */
-}
+    .gradient-text {
+      background: linear-gradient(to right, #a18b56, #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-    </style>
-  </head>
-  
+    .gold-text {
+      color: #a18b56;
+    }
+
+    .bg-gold {
+      background-color: #a18b56;
+    }
+
+    .text-gold {
+      color: #a18b56;
+    }
+  </style>
+</head>
+
 <body class="bg-white text-black scroll-smooth">
 
   <!-- Navigation -->
-  <nav class="bg-white py-4 shadow sticky top-0 z-50">
-    <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold">
+  <nav class="bg-black py-4 shadow sticky top-0 z-50">
+    <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold text-white">
       <a href="#service" class="hover:text-gold">Service</a>
       <a href="#about" class="hover:text-gold">Über mich</a>
       <a href="#kontakt" class="hover:text-gold">Kontakt</a>
@@ -106,33 +48,30 @@
       <a href="Datenschutz.html" class="hover:text-gold">Datenschutz</a>
     </div>
   </nav>
-  
 
-  <section class="hero min-h-screen flex flex-col items-center justify-center text-center px-10 relative bg-black text-white pt-[8rem] mt-[-3rem]">
+  <!-- Hero / Video Section -->
+  <section class="bg-black text-white min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24">
     <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-4">Gutachter BAS</h1>
-    <p class="text-lg md:text-xl mb-4">Ihr Experte für KFZ-Gutachten in Ingolstadt</p>
-    <a href="#kontakt" class="px-6 py-3 bg-gold text-black rounded-full hover:bg-yellow-400 font-semibold">Jetzt Kontakt aufnehmen</a>
+    <p class="text-lg md:text-xl mb-6">Ihr Experte für KFZ-Gutachten in Ingolstadt</p>
+    <a href="#kontakt" class="px-6 py-3 bg-gold text-black rounded-full hover:bg-yellow-400 font-semibold transition">Jetzt Kontakt aufnehmen</a>
 
-    <div class="relative w-full max-w-4xl aspect-video mt-8 overflow-hidden">
-      <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-80">
+    <!-- Video -->
+    <div class="w-full max-w-5xl mt-10 aspect-video overflow-hidden rounded-xl shadow-lg">
+      <video autoplay muted loop playsinline class="w-full h-full object-cover">
         <source src="https://www.dropbox.com/scl/fi/w3co8787o79isqardf9sj/car.mp4?rlkey=ud87th0mey18hs6y52bzvwxzn&raw=1" type="video/mp4">
         Dein Browser unterstützt dieses Video nicht.
       </video>
     </div>
-</section>
+  </section>
 
-  
-    
-
-
+  <!-- Öffnungszeiten -->
   <section class="bg-white py-4 border-t border-b border-gray-200 text-center text-sm">
-    <div class="max-w-xs sm:max-w-full break-words text-center px-4 mx-auto">
+    <div class="max-w-xs sm:max-w-full break-words mx-auto px-4">
       <strong class="text-black">⏰ Öffnungszeiten:</strong>
-      <span class="text-green-600 font-semibold">
-        Mo–Fr 08:00–17:00 Uhr, telefonisch bis 21:00 Uhr
-      </span>
+      <span class="text-green-600 font-semibold">Mo–Fr 08:00–17:00 Uhr, telefonisch bis 21:00 Uhr</span>
     </div>
-  </section>  
+  </section>
+
   
 
  <!-- Über mich -->
