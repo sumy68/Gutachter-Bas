@@ -75,10 +75,22 @@
         100% { right: 220px; }
       }
   
+
+      
       @keyframes puff {
         0% { transform: translateX(-50%) scale(0); opacity: 0; }
         100% { transform: translateX(-50%) scale(1.5); opacity: 1; }
       }
+
+
+      .scene {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  margin-top: 3rem;
+  z-index: 10; /* Sicherstellen, dass es im Vordergrund bleibt */
+}
+
     </style>
   </head>
   
