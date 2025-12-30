@@ -1,18 +1,44 @@
-<header class="bg-black sticky top-0 z-50 shadow">
-    <nav class="max-w-7xl mx-auto px-4 py-4" aria-label="Hauptnavigation">
-      <div class="flex items-center justify-between">
-        <a href="#" class="flex items-center gap-2 group" aria-label="Startseite – Gutachter BAS">
-          <span class="font-display text-xl text-white group-hover:text-gold transition-colors">Gutachter <span class="text-gold">BAS</span></span>
-        </a>
-        <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold text-white">
-          <a href="#service" class="hover:text-gold focus:text-gold">Service</a>
-          <a href="#about" class="hover:text-gold focus:text-gold">Über mich</a>
-          <a href="#bewertungen" class="hover:text-gold focus:text-gold">Bewertungen</a>
-          <a href="#kontakt" class="hover:text-gold focus:text-gold">Kontakt</a>
-          <a href="/impressum.html" class="hover:text-gold focus:text-gold">Impressum</a>
-          <a href="/datenschutz.html" class="hover:text-gold focus:text-gold">Datenschutz</a>
-        </div>
+<header class="site-header bg-black sticky top-0 z-50 shadow">
+  <nav class="max-w-7xl mx-auto px-4 py-4" aria-label="Hauptnavigation">
+    <div class="flex items-center justify-between gap-3">
+      <a href="#" class="flex items-center gap-2 group" aria-label="Startseite – Gutachter BAS">
+        <span class="font-display text-xl text-white group-hover:text-gold transition-colors">
+          Gutachter <span class="text-gold">BAS</span>
+        </span>
+      </a>
+
+      <!-- Burger (mobile) -->
+      <button
+        class="burger md:hidden"
+        type="button"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+        id="burgerBtn"
+      >
+        <span></span>
+      </button>
+
+      <!-- Desktop Links -->
+      <div class="hidden md:flex flex-wrap justify-center gap-4 text-sm font-semibold text-white">
+        <a href="#service" class="hover:text-gold focus:text-gold">Service</a>
+        <a href="#about" class="hover:text-gold focus:text-gold">Über mich</a>
+        <a href="#bewertungen" class="hover:text-gold focus:text-gold">Bewertungen</a>
+        <a href="#kontakt" class="hover:text-gold focus:text-gold">Kontakt</a>
       </div>
-    </nav>
-  </header>
-  
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div id="menuOverlay" class="menu-overlay md:hidden" hidden></div>
+
+    <!-- Mobile Panel -->
+    <div id="mobileMenu" class="mobile-menu md:hidden" hidden>
+      <a href="#service">Service</a>
+      <a href="#about">Über mich</a>
+      <a href="#bewertungen">Bewertungen</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="/impressum.html">Impressum</a>
+      <a href="/datenschutz.html">Datenschutz</a>
+    </div>
+  </nav>
+</header>
