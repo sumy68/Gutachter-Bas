@@ -3,35 +3,61 @@
    ========================= */
    *,
    *::before,
-   *::after { box-sizing: border-box; }
+   *::after {
+     box-sizing: border-box;
+   }
    
-   html, body { width: 100%; overflow-x: hidden; }
+   html,
+   body {
+     width: 100%;
+     overflow-x: hidden;
+   }
    
-   img, video, iframe, canvas, svg {
+   img,
+   video,
+   iframe,
+   canvas,
+   svg {
      max-width: 100%;
      height: auto;
      display: block;
    }
    
-   /* Lange Wörter/URLs dürfen nicht rausdrücken */
-   p, h1, h2, h3, h4, h5, h6, a, li { overflow-wrap: anywhere; }
-   
-   /* Sections dürfen niemals horizontal überziehen */
-   section { overflow-x: clip; }
-   
-   /* Wenn du Sticky Header hast: Anker nicht verdecken */
-   #main section[id] { scroll-margin-top: 96px; } /* optional feinjustieren */
-   
-   /* =========================
-      DEIN ORIGINAL (BAS)
-      ========================= */
-   :root { --gold: #a18b56; }
-   
-   body {
-     font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+   p,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   a,
+   li {
+     overflow-wrap: anywhere;
    }
    
-   .font-display { font-family: 'Orbitron', sans-serif; }
+   section {
+     overflow-x: clip;
+   }
+   
+   #main section[id] {
+     scroll-margin-top: 96px;
+   }
+   
+   /* =========================
+      DESIGN TOKENS
+      ========================= */
+   :root {
+     --gold: #a18b56;
+   }
+   
+   body {
+     font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto,
+       "Helvetica Neue", Arial, "Noto Sans";
+   }
+   
+   .font-display {
+     font-family: "Orbitron", sans-serif;
+   }
    
    .gradient-text {
      background: linear-gradient(to right, var(--gold), #ffffff);
@@ -39,109 +65,155 @@
      -webkit-text-fill-color: transparent;
    }
    
-   .text-gold { color: var(--gold); }
-   .bg-gold { background-color: var(--gold); }
+   .text-gold {
+     color: var(--gold);
+   }
    
-   :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+   .bg-gold {
+     background-color: var(--gold);
+   }
    
-  
-  /* ===== MOBILE BURGER MENU (BAS) ===== */
-.burger{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:44px;
-  height:44px;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-}
+   :focus-visible {
+     outline: 2px solid var(--gold);
+     outline-offset: 2px;
+   }
+   
+   /* =========================
+      HEADER
+      ========================= */
+   .site-header {
+     backdrop-filter: saturate(120%) blur(2px);
+   }
+   
+   /* =========================
+      BURGER BUTTON
+      ========================= */
+      .burger{
+        width:44px;
+        height:44px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        background:transparent;
+        border:0;
+        cursor:pointer;
+      }
+      
+      .burger span{
+        display:block;
+        width:26px;
+        height:2px;
+        background:#fff;
+        border-radius:999px;
+        position:relative;
+        transition: background .2s ease;
+      }
+      
+      .burger span::before,
+      .burger span::after{
+        content:"";
+        position:absolute;
+        left:0;
+        width:26px;
+        height:2px;
+        background:#fff;
+        border-radius:999px;
+        transition: transform .25s ease;
+      }
+      
+      .burger span::before{ top:-7px; }
+      .burger span::after{ top:7px; }
+      
+      /* OPEN = X */
+      .burger[aria-expanded="true"] span{
+        background: transparent; /* NICHT opacity! */
+      }
+      
+      .burger[aria-expanded="true"] span::before{
+        transform: translateY(7px) rotate(45deg);
+      }
+      
+      .burger[aria-expanded="true"] span::after{
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      
 
-.burger span,
-.burger::before,
-.burger::after{
-  content:"";
-  display:block;
-  height:2px;
-  width: 26px;
-  background: #fff;
-  border-radius: 999px;
-  transition: transform .25s ease, opacity .25s ease;
-}
-
-.burger span{ margin: 6px 0; }
-.burger::before{ transform: translateY(-6px); }
-.burger::after{ transform: translateY(6px); }
-
-.burger[aria-expanded="true"] span{ opacity:0; }
-.burger[aria-expanded="true"]::before{ transform: translateY(2px) rotate(45deg); }
-.burger[aria-expanded="true"]::after{ transform: translateY(-2px) rotate(-45deg); }
-
-/* Overlay */
-.menu-overlay{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(2px);
-  z-index: 60;
-}
-
-/* Panel */
-.mobile-menu{
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100svh;
-  width: min(78vw, 320px);
-  background: #0b0b0b;
-  z-index: 70;
-  padding: 90px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  transform: translateX(100%);
-  transition: transform .32s cubic-bezier(.2,.8,.2,1);
-}
-
-.mobile-menu a{
-  display:block;
-  padding: 12px 12px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 700;
-}
-
-.mobile-menu a:hover{
-  background: rgba(255,255,255,.08);
-}
-
-.mobile-menu.open{
-  transform: translateX(0);
-}
-
-body.menu-open{ overflow: hidden; }
-
-.map-section {
-  margin-top: 100px;   /* oder 60px, wenn dir das zu viel ist */
-}
-/* === FIX: Map darf nicht abgeschnitten werden === */
-.map-section {
-  width: 100%;
-  overflow: visible;     /* wichtig */
-}
-
-.map-container {
-  width: 100%;
-  max-width: none;       /* killt boxed layout */
-  margin: 0;
-  padding: 0;
-}
-
-.map-container iframe {
-  display: block;
-  width: 100%;
-  height: 450px;
-  border: 0;
-}
+ 
+   
+   /* =========================
+      MOBILE MENU OVERLAY
+      ========================= */
+   .menu-overlay {
+     position: fixed;
+     inset: 0;
+     background: rgba(0, 0, 0, 0.6);
+     backdrop-filter: blur(2px);
+     z-index: 60;
+   }
+   
+   /* =========================
+      MOBILE MENU (FROM RIGHT)
+      ========================= */
+   .mobile-menu {
+     position: fixed;
+     top: 0;
+     right: 0;
+     height: 100svh;
+     width: min(80vw, 320px);
+     background: #000;
+     z-index: 70;
+   
+     padding: 90px 20px 20px;
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+   
+     transform: translateX(100%);
+     transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+   }
+   
+   .mobile-menu.open {
+     transform: translateX(0);
+   }
+   
+   .mobile-menu a {
+     display: block;
+     padding: 12px;
+     border-radius: 12px;
+     color: #fff;
+     font-size: 18px;
+     font-weight: 700;
+     text-decoration: none;
+   }
+   
+   .mobile-menu a:hover {
+     background: rgba(255, 255, 255, 0.08);
+   }
+   
+   body.menu-open {
+     overflow: hidden;
+   }
+   
+   /* =========================
+      MAP SECTION (FIX)
+      ========================= */
+   .map-section {
+     margin-top: 100px;
+     width: 100%;
+     overflow: visible;
+   }
+   
+   .map-container {
+     width: 100%;
+     max-width: none;
+     margin: 0;
+     padding: 0;
+   }
+   
+   .map-container iframe {
+     width: 100%;
+     height: 450px;
+     border: 0;
+     display: block;
+   }
+   

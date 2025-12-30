@@ -1,52 +1,66 @@
-// Header/Footer laden
+// ==============================
+// Header & Footer laden
+// ==============================
 (async function () {
-    const headerMount = document.getElementById("site-header");
-    const footerMount = document.getElementById("site-footer");
-  
+  const headerMount = document.getElementById("site-header");
+  const footerMount = document.getElementById("site-footer");
+
+  try {
+    const [headerRes, footerRes] = await Promise.all([
+      fetch("/partials/header.html"),
+      fetch("/partials/footer.html"),
+    ]);
+
+    if (headerRes.ok) headerMount.innerHTML = await headerRes.text();
+    if (footerRes.ok) footerMount.innerHTML = await footerRes.text();
+  } catch (e) {
+    // silent fail
+  }
+})();
+
+// ==============================
+// Testimonials Slider
+// ==============================
+(function () {
+  const slider = document.getElementById("testimonial-slider");
+  if (!slider) return;
+
+  let currentIndex = 0;
+  const slides = slider.children.length;
+  const nextBtn = document.getElementById("nextBtn");
+  const prevBtn = document.getElementById("prevBtn");
+
+  function goTo(index) {
+    currentIndex = (index + slides) % slides;
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  const auto = setInterval(() => goTo(currentIndex + 1), 4000);
+
+  nextBtn?.addEventListener("click", () => goTo(currentIndex + 1));
+  prevBtn?.addEventListener("click", () => goTo(currentIndex - 1));
+
+  slider.addEventListener("mouseenter", () => clearInterval(auto));
+})();
+
+// ==============================
+// Respect reduced motion
+// ==============================
+(function () {
+  const video = document.getElementById("heroVideo");
+  if (!video) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     try {
-      const [headerRes, footerRes] = await Promise.all([
-        fetch("/partials/header.html"),
-        fetch("/partials/footer.html"),
-      ]);
-  
-      if (headerRes.ok) headerMount.innerHTML = await headerRes.text();
-      if (footerRes.ok) footerMount.innerHTML = await footerRes.text();
-    } catch (e) {
-      // silent fail
-    }
-  })();
-  
-  // Slider
-  (function(){
-    let currentIndex = 0;
-    const slider = document.getElementById('testimonial-slider');
-    const totalSlides = slider.children.length;
-    const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
-  
-    function goTo(index){
-      currentIndex = (index + totalSlides) % totalSlides;
-      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
-  
-    const auto = setInterval(()=>goTo(currentIndex + 1), 4000);
-    nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
-    prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
-  
-    // Pause on hover for accessibility/usability
-    slider.addEventListener('mouseenter', ()=> clearInterval(auto));
-  })();
-  
-  // Respect reduced motion
-  (function(){
-    const video = document.getElementById('heroVideo');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      try { video.pause(); } catch(e) {}
-      video.removeAttribute('autoplay');
-    }
-  })();
-  
-  // Mobile Burger Menu
+      video.pause();
+    } catch (e) {}
+    video.removeAttribute("autoplay");
+  }
+})();
+
+// ==============================
+// Mobile Burger Menu (☰ → X) via aria-expanded
+// ==============================
 (function () {
   function initMenu() {
     const btn = document.getElementById("burgerBtn");
@@ -69,7 +83,7 @@
       setTimeout(() => {
         panel.hidden = true;
         overlay.hidden = true;
-      }, 320);
+      }, 250);
     };
 
     btn.addEventListener("click", () => {
@@ -78,21 +92,14 @@
     });
 
     overlay.addEventListener("click", close);
-
-    // close on ESC
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") close();
-    });
-
-    // close after clicking a link
+    document.addEventListener("keydown", (e) => e.key === "Escape" && close());
     panel.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
   }
 
-  // header wird per fetch geladen → kurz warten bis DOM da ist
-  const t = setInterval(() => {
-    const btn = document.getElementById("burgerBtn");
-    if (btn) {
-      clearInterval(t);
+  // warten bis Header per fetch da ist
+  const wait = setInterval(() => {
+    if (document.getElementById("burgerBtn")) {
+      clearInterval(wait);
       initMenu();
     }
   }, 50);
