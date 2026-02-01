@@ -641,6 +641,14 @@
      line-height: 1.6;
    }
    
+   .contact-value-fixed-height {
+     min-height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+   }
+   
    .contact-link {
      color: var(--gold);
      text-decoration: none;
@@ -683,21 +691,10 @@
        width: 100%;
        max-width: 100%;
      }
-   }
-   
-   /* Route Button with white text */
-   .cta-route {
-     background: var(--black);
-     color: var(--white);
-     border-color: var(--black);
-   }
-   
-   .cta-route:hover {
-     background: var(--gold);
-     color: var(--black);
-     border-color: var(--gold);
-     transform: translateY(-2px);
-     box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+     
+     .contact-value-fixed-height {
+       min-height: 50px;
+     }
    }
    
    /* =========================
@@ -811,6 +808,9 @@
      display: flex;
      flex-direction: column;
      gap: 8px;
+     
+     overflow-y: auto; /* Enable scrolling */
+     overflow-x: hidden;
    
      transform: translateX(100%);
      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -833,6 +833,7 @@
      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
      position: relative;
      overflow: hidden;
+     flex-shrink: 0; /* Prevent shrinking */
    }
    
    .mobile-menu a::before {
@@ -865,17 +866,23 @@
    }
    
    /* Separator for legal links */
-   .mobile-menu a.text-gray-400 {
-     margin-top: 16px;
-     padding-top: 16px;
-     border-top: 1px solid rgba(255, 255, 255, 0.1);
-     font-size: 15px;
+   .mobile-menu a.legal-link {
+     margin-top: 8px;
+     padding-top: 12px;
+     font-size: 15px !important;
      font-weight: 500;
-     color: var(--gray-400);
+     color: #9ca3af !important; /* Gray color - always visible */
    }
    
-   .mobile-menu a.text-gray-400:hover {
-     color: var(--white);
+   .mobile-menu a.legal-link:first-of-type {
+     margin-top: 24px;
+     border-top: 1px solid rgba(255, 255, 255, 0.1);
+     padding-top: 20px;
+   }
+   
+   .mobile-menu a.legal-link:hover {
+     color: var(--white) !important; /* White on hover */
+     background: rgba(212, 175, 55, 0.1) !important;
    }
    
    /* Close button area indicator */
