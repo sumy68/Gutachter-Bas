@@ -1,0 +1,47 @@
+<header class="site-header bg-black sticky top-0 z-50 shadow-lg">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 py-4" aria-label="Hauptnavigation">
+    <div class="flex items-center justify-between gap-3">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 group" aria-label="Startseite – Gutachter BAS">
+        <span class="font-display text-xl sm:text-2xl text-white group-hover:text-gold transition-colors duration-300">
+          Gutachter <span class="text-gold">BAS</span>
+        </span>
+      </a>
+
+      <!-- Burger Menu (Mobile) -->
+      <button
+        class="burger md:hidden"
+        type="button"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+        id="burgerBtn"
+      >
+        <span></span>
+      </button>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex gap-6 text-sm font-semibold text-white items-center">
+        <a href="#service" class="hover:text-gold transition-colors duration-200 px-2 py-1">Service</a>
+        <a href="#about" class="hover:text-gold transition-colors duration-200 px-2 py-1">Über mich</a>
+        <a href="#bewertungen" class="hover:text-gold transition-colors duration-200 px-2 py-1">Bewertungen</a>
+        <a href="#kontakt" class="px-5 py-2 bg-gold text-black rounded-full hover:bg-gold-dark transition-all duration-200 hover:scale-105">
+          Kontakt
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay md:hidden" hidden></div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobileMenu" class="mobile-menu md:hidden" hidden>
+      <a href="#service">Service</a>
+      <a href="#about">Über mich</a>
+      <a href="#bewertungen">Bewertungen</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="/impressum.html" class="text-gray-400 text-sm mt-4">Impressum</a>
+      <a href="/datenschutz.html" class="text-gray-400 text-sm">Datenschutz</a>
+    </div>
+  </nav>
+</header>
