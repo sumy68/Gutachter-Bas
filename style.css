@@ -350,9 +350,9 @@
       ABOUT PORTRAIT
       ========================= */
    .about-portrait {
-     float: right;
+     float: none;
      width: 220px;
-     margin: 0 0 1.5rem 1.75rem;
+     margin: 0 auto 1.5rem;
      text-align: center;
    }
 
