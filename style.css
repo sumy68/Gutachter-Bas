@@ -335,6 +335,18 @@
    }
    
    /* =========================
+      ABOUT TEXT
+      ========================= */
+   #about .space-y-6 {
+     text-align: center;
+   }
+
+   #about .space-y-6 .pt-4 {
+     display: flex;
+     justify-content: center;
+   }
+
+   /* =========================
       ABOUT PORTRAIT
       ========================= */
    .about-portrait {
