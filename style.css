@@ -1070,3 +1070,8 @@
      clip: auto;
      white-space: normal;
    }
+
+/* Burger nur auf Mobil anzeigen – Doppel-Menü auf Desktop entfernt */
+@media (min-width: 768px) {
+  .burger { display: none !important; }
+}
