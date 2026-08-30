@@ -13,6 +13,18 @@
     
     if (headerRes.ok) headerMount.innerHTML = await headerRes.text();
     if (footerRes.ok) footerMount.innerHTML = await footerRes.text();
+
+    // Kommt man von einer anderen Seite mit Anker (z. B. /#kontakt), hat der
+    // Browser schon gescrollt, bevor Header und Footer eingefuegt waren.
+    // Danach verschiebt sich das Ziel um deren Hoehe – also erneut anspringen.
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ block: "start", behavior: "auto" });
+        });
+      }
+    }
   } catch (e) {
     // silent fail
   }
