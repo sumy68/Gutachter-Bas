@@ -347,11 +347,50 @@
    }
 
    /* =========================
+      ABOUT CONTENT (Text + Foto)
+      ========================= */
+   .about-content {
+     display: grid;
+     grid-template-columns: 1fr;
+     gap: 2rem;
+     align-items: start;
+   }
+
+   /* Auf Mobil: Foto oberhalb des Textes */
+   .about-content .about-portrait {
+     order: -1;
+   }
+
+   /* Zwei Spalten erst ab 1024px – darunter (Handy + Tablet hochkant)
+      bleibt der Text volle Breite und das Foto steht darüber. */
+   @media (min-width: 1024px) {
+     .about-content {
+       grid-template-columns: 1fr 340px;
+       gap: 3rem;
+     }
+
+     /* Foto rechts, Text linksbündig daneben */
+     .about-content .about-portrait {
+       order: 0;
+       width: 100%;
+       margin: 0;
+     }
+
+     #about .about-content .about-text {
+       text-align: left;
+     }
+
+     #about .about-content .about-text .pt-4 {
+       justify-content: flex-start;
+     }
+   }
+
+   /* =========================
       ABOUT PORTRAIT
       ========================= */
    .about-portrait {
      float: none;
-     width: 220px;
+     width: 280px;
      margin: 0 auto 1.5rem;
      text-align: center;
    }
@@ -375,7 +414,7 @@
    @media (max-width: 640px) {
      .about-portrait {
        float: none;
-       width: 200px;
+       width: 240px;
        margin: 0 auto 1.5rem;
      }
    }
