@@ -1,7 +1,7 @@
 // Impressum und Datenschutz – Wortlaut UNVERÄNDERT aus der bisherigen Website übernommen,
 // nur ins neue Design gebracht. Kontaktangaben kommen aus site.config.mjs.
 import { CONTACT, OWNER } from "../site.config.mjs";
-import { esc, head, header, footer, V } from "./layout.mjs";
+import { esc, head, header, footer, addressLink, V } from "./layout.mjs";
 import { legalSchema } from "./schema.mjs";
 
 const tel = () => `<a class="kontaktwert" href="${CONTACT.phoneHref}">${esc(CONTACT.phoneDisplay)}</a>`;
@@ -35,7 +35,7 @@ ${footer({ home: false })}
 
 export function renderImpressum() {
   const body = [
-    block("Kontaktdaten", `<p><strong>${esc(OWNER.name)}</strong></p><p>${adresse()}</p>
+    block("Kontaktdaten", `<p><strong>${esc(OWNER.name)}</strong></p><p>${addressLink()}<br>${esc(CONTACT.countryName)}</p>
       <p><strong>Telefon:</strong> ${tel()}</p>
       <p><strong>E-Mail:</strong> ${mail()}</p>`),
     `<!--
@@ -71,7 +71,7 @@ export function renderImpressum() {
 export function renderDatenschutz() {
   const body = [
     block("", `<p>Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TDDDG, DDG). In diesen Datenschutzinformationen informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Website.</p>`),
-    block("Verantwortliche Stelle", `<p><strong>${esc(OWNER.name)}</strong></p><p>${adresse()}</p>
+    block("Verantwortliche Stelle", `<p><strong>${esc(OWNER.name)}</strong></p><p>${addressLink()}<br>${esc(CONTACT.countryName)}</p>
       <p><strong>E-Mail:</strong> ${mail()}</p>
       <p><strong>Telefon:</strong> ${tel()}</p>`),
 

@@ -2,7 +2,7 @@
 import {
   OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT, FORM,
 } from "../site.config.mjs";
-import { esc, head, header, footer, phoneLink, mailLink, addressBlock, hoursText, V } from "./layout.mjs";
+import { esc, head, header, footer, phoneLink, mailLink, addressLink, hoursLines, V } from "./layout.mjs";
 import { homeSchema } from "./schema.mjs";
 
 const IMG = "/assets/img";
@@ -178,8 +178,8 @@ const contact = () => `
       <dl class="kontaktliste" data-reveal>
         <div><dt>Telefon</dt><dd>${phoneLink()}</dd></div>
         <div><dt>E-Mail</dt><dd>${mailLink()}</dd></div>
-        <div id="standort"><dt>Adresse</dt><dd>${addressBlock()}<a class="textlink" href="${CONTACT.mapsUrl}" target="_blank" rel="noopener">In Google Maps öffnen</a></dd></div>
-        <div><dt>Erreichbar</dt><dd>${hoursText()}</dd></div>
+        <div id="standort"><dt>Adresse</dt><dd>${addressLink()}</dd></div>
+        <div><dt>Erreichbar</dt><dd>${hoursLines()}</dd></div>
       </dl>
     </div>
     <form class="formular" id="anfrage" data-endpoint="${esc(FORM.endpoint)}" data-mail="${esc(CONTACT.email)}" data-max-dateien="${FORM.maxFiles}" data-max-mb="${FORM.maxFileMb}" novalidate data-reveal>

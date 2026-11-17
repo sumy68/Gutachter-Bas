@@ -28,6 +28,7 @@ function business() {
     },
     geo: { "@type": "GeoCoordinates", latitude: CONTACT.geo.lat, longitude: CONTACT.geo.lng },
     hasMap: CONTACT.mapsUrl,
+    openingHours: `Mo-Fr ${HOURS.office.opens}-${HOURS.office.closes}`,
     areaServed: AREA.map((name) => ({ "@type": "City", name })),
     audience: AUDIENCES.map((a) => ({ "@type": "Audience", audienceType: a })),
     openingHoursSpecification: [

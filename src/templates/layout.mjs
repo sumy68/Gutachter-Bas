@@ -27,10 +27,14 @@ export const phoneLink = (cls = "") =>
   `<a class="kontaktwert ${cls}" href="${CONTACT.phoneHref}">${esc(CONTACT.phoneDisplay)}</a>`;
 export const mailLink = (cls = "") =>
   `<a class="kontaktwert ${cls}" href="mailto:${CONTACT.email}">${esc(CONTACT.email)}</a>`;
-export const addressBlock = (cls = "") =>
-  `<address class="kontaktwert ${cls}">${esc(CONTACT.street)}<br><span class="nw">${esc(CONTACT.postalCode)} ${esc(CONTACT.city)}</span></address>`;
-export const hoursText = () =>
-  `<span><span class="nw">${HOURS.office.days} ${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr,</span> telefonisch bis <span class="nw">${HOURS.phoneUntil}&nbsp;Uhr</span></span>`;
+// Adresse = Maps-Link, gestaltet exakt wie Telefon und E-Mail (Klasse kontaktwert)
+const adressZeilen = () =>
+  `${esc(CONTACT.street)}<br><span class="nw">${esc(CONTACT.postalCode)}&nbsp;${esc(CONTACT.city)}</span>`;
+export const addressLink = (cls = "") =>
+  `<a class="kontaktwert ${cls}" href="${CONTACT.mapsUrl}" target="_blank" rel="noopener">${adressZeilen()}<span class="nur-sr"> (öffnet Google Maps in neuem Tab)</span></a>`;
+// Erreichbarkeit: zwei feste Zeilen, Uhrzeiten und Zeitspannen brechen nie um
+export const hoursLines = (cls = "") =>
+  `<span class="kontaktwert ${cls}"><span class="nw">${HOURS.office.days}&nbsp;${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr</span><br><span class="nw">Telefonisch bis ${HOURS.phoneUntil}&nbsp;Uhr</span></span>`;
 
 // Wortmarke: selbst gezeichnetes Monogramm „B" (Linienzeichnung) in feiner Gold-Umrandung
 // + „Gutachter" (Off-White) + „BAS" (Gold). Gleiches Logo in Navbar und Footer.
@@ -130,16 +134,15 @@ export function footer({ home = true } = {}) {
       <div class="fuss__spalte">
         <h3 class="fuss__label">Kontakt</h3>
         <ul class="fuss__liste">
-          <li><a class="kontaktwert" href="${CONTACT.mapsUrl}" target="_blank" rel="noopener">${esc(CONTACT.street)}<br><span class="nw">${esc(CONTACT.postalCode)} ${esc(CONTACT.city)}</span><span class="nur-sr"> (öffnet Google Maps)</span></a></li>
+          <li>${addressLink()}</li>
           <li>${phoneLink()}</li>
           <li>${mailLink()}</li>
         </ul>
       </div>
       <div class="fuss__spalte">
         <h3 class="fuss__label">Erreichbarkeit</h3>
-        <ul class="fuss__liste fuss__liste--text">
-          <li><span class="nw">${HOURS.office.days} ${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr</span></li>
-          <li>telefonisch bis <span class="nw">${HOURS.phoneUntil}&nbsp;Uhr</span></li>
+        <ul class="fuss__liste">
+          <li>${hoursLines()}</li>
         </ul>
       </div>
     </div>

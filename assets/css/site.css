@@ -41,7 +41,6 @@ section[tabindex="-1"]:focus{outline:none}
 ::selection{background:var(--gold);color:var(--schwarz)}
 
 .nw,.kontaktwert{white-space:nowrap}
-address.kontaktwert{white-space:normal}
 .nur-sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .skip{position:fixed;left:16px;top:-60px;z-index:100;background:var(--gold);color:var(--schwarz);padding:10px 16px;font-weight:600;text-decoration:none;transition:transform .2s}
 .skip:focus{transform:translateY(76px)}
@@ -297,11 +296,10 @@ body.menue-offen{overflow:hidden}
 .kontakt__raster{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2.4vw,32px);align-items:start}
 .kontakt__info{grid-column:1/span 5}
 .kontaktliste{margin:40px 0 0;display:grid;gap:0}
-.kontaktliste div{display:grid;grid-template-columns:7.5em 1fr;gap:12px;padding:18px 0;border-top:1px solid var(--linie)}
+.kontaktliste div{display:grid;grid-template-columns:7.5em 1fr;align-items:baseline;gap:12px;padding:18px 0;border-top:1px solid var(--linie)}
 .kontaktliste div:last-child{border-bottom:1px solid var(--linie)}
-.kontaktliste dt{color:var(--text-2);font-size:.92rem;padding-top:.12em}
-.kontaktliste dd{margin:0;display:flex;flex-direction:column;gap:6px;font-size:1rem}
-.kontaktliste .textlink{font-size:.92rem;align-self:start}
+.kontaktliste dt{color:var(--text-2);font-size:.92rem;line-height:1.6}
+.kontaktliste dd{margin:0;font-size:1rem;line-height:1.6}
 .formular{grid-column:7/span 6;background:var(--flaeche);border:1px solid var(--linie-stark);padding:clamp(28px,3.8vw,56px);display:grid;gap:26px}
 .feld{display:flex;flex-direction:column;gap:8px}
 .feld-paar{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -350,8 +348,7 @@ body.menue-offen{overflow:hidden}
 .fuss__liste a{color:var(--text);text-decoration:none;transition:color .2s}
 .fuss__liste a:hover{color:var(--gold-hell)}
 .fuss .kontaktwert{font-size:.95rem;font-weight:500;color:var(--text)}
-.fuss .kontaktwert:hover{color:var(--gold-hell)}
-.fuss__liste--text{color:var(--text)}
+.fuss a.kontaktwert:hover{color:var(--gold-hell)}
 .fuss__unten{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 32px;padding-block:24px 32px;border-top:1px solid var(--linie);font-size:.84rem;color:var(--text-2)}
 .fuss__recht{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
 .fuss__recht a{color:var(--text-2);text-decoration:none;transition:color .2s}
