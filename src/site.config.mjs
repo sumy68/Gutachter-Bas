@@ -11,7 +11,6 @@ export const SITE = {
   name: "Gutachter BAS",
   alternateName: "KFZ-Sachverständiger Bas",
   slogan: "Zertifiziert · Unabhängig · Zuverlässig",
-  founderYear: 2016, // aus bisherigem Footer „© 2016"
   lastmod: "2026-11-17",
 };
 

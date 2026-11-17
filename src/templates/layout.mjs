@@ -1,7 +1,7 @@
 // Gemeinsame Bausteine: <head>, Header, Footer und Kontakt-Snippets.
 // Kontaktangaben kommen ausschließlich aus site.config.mjs.
 import { readFileSync } from "node:fs";
-import { SITE, CONTACT, HOURS } from "../site.config.mjs";
+import { SITE, CONTACT, HOURS, SERVICES, OWNER } from "../site.config.mjs";
 
 // CSS wird beim Build inline eingebunden (spart einen Roundtrip -> schnelleres LCP).
 // Quelle bleibt /assets/css/site.css.
@@ -32,9 +32,11 @@ export const addressBlock = (cls = "") =>
 export const hoursText = () =>
   `<span><span class="nw">${HOURS.office.days} ${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr,</span> telefonisch bis <span class="nw">${HOURS.phoneUntil}&nbsp;Uhr</span></span>`;
 
-// Crash-Test-Marker (geviertelter Kreis) – Motiv aus dem BAS-Logo
-export const marker = (size = 22) =>
-  `<svg class="marker" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 1.5A10.5 10.5 0 0 1 22.5 12H12zM12 12h-10.5A10.5 10.5 0 0 0 12 22.5z" fill="currentColor"/></svg>`;
+// Wortmarke: selbst gezeichnetes Monogramm „B" (Linienzeichnung) in feiner Gold-Umrandung
+// + „Gutachter" (Off-White) + „BAS" (Gold). Gleiches Logo in Navbar und Footer.
+const MONOGRAMM = `<svg class="logo__zeichen" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x=".75" y=".75" width="26.5" height="26.5" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M10 7.5V20.5M10 7.5h4.6a3.1 3.1 0 0 1 0 6.2H10M10 13.7h5.3a3.4 3.4 0 0 1 0 6.8H10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>`;
+export const logo = (label = "Gutachter BAS – zur Startseite") =>
+  `<a class="logo" href="/" aria-label="${esc(label)}">${MONOGRAMM}<span class="logo__wort">Gutachter <b>BAS</b></span></a>`;
 
 const FONT = "/assets/fonts/schibsted-grotesk-latin.woff2";
 
@@ -90,7 +92,7 @@ export function header({ home = true } = {}) {
   return `<a class="skip" href="#main">Zum Inhalt springen</a>
 <header class="kopf" id="kopf">
   <div class="kopf__innen">
-    <a class="logo" href="/" aria-label="Gutachter BAS – zur Startseite">${marker(24)}<span>Gutachter <b>BAS</b></span></a>
+    ${logo()}
     <nav class="nav" aria-label="Hauptnavigation">${links}</nav>
     <a class="btn btn--klein kopf__cta" href="${href("#kontakt")}">Anfragen</a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="menue" aria-label="Menü öffnen"><span></span><span></span></button>
@@ -102,23 +104,53 @@ export function header({ home = true } = {}) {
 </header>`;
 }
 
-export function footer() {
+export function footer({ home = true } = {}) {
+  const href = (h) => (home ? h : `/${h}`);
+  const jahr = new Date().getFullYear(); // beim Build automatisch aktuell
+  const leistungen = SERVICES.map((s) => `<li><a href="${href(`#${s.slug}`)}">${esc(s.title)}</a></li>`).join("");
   return `<footer class="fuss">
-  <div class="wrap fuss__innen">
-    <div class="fuss__marke">
-      <a class="logo" href="/">${marker(24)}<span>Gutachter <b>BAS</b></span></a>
-      <p class="fuss__slogan">${esc(SITE.slogan)}</p>
+  <div class="wrap">
+    <div class="fuss__cta">
+      <h2 class="fuss__titel">Unfall gehabt?<br> Wir sind für Sie da.</h2>
+      <div class="fuss__aktion">
+        <a class="btn" href="${href("#kontakt")}">Jetzt Gutachter anfragen</a>
+        <a class="fuss__telefon" href="${CONTACT.phoneHref}">${esc(CONTACT.phoneDisplay)}</a>
+      </div>
     </div>
-    <div class="fuss__kontakt">
-      ${addressBlock()}
-      <p>${phoneLink()}</p>
-      <p>${mailLink()}</p>
+    <div class="fuss__raster">
+      <div class="fuss__spalte">
+        <h3 class="fuss__label">Gutachter BAS</h3>
+        ${logo("Gutachter BAS – Startseite")}
+        <p class="fuss__text">Unabhängige Kfz-Gutachten in ${esc(CONTACT.city)} seit über ${OWNER.yearsExperience}&nbsp;Jahren.</p>
+      </div>
+      <nav class="fuss__spalte" aria-labelledby="fuss-leistungen">
+        <h3 class="fuss__label" id="fuss-leistungen">Leistungen</h3>
+        <ul class="fuss__liste">${leistungen}</ul>
+      </nav>
+      <div class="fuss__spalte">
+        <h3 class="fuss__label">Kontakt</h3>
+        <ul class="fuss__liste">
+          <li><a class="kontaktwert" href="${CONTACT.mapsUrl}" target="_blank" rel="noopener">${esc(CONTACT.street)}<br><span class="nw">${esc(CONTACT.postalCode)} ${esc(CONTACT.city)}</span><span class="nur-sr"> (öffnet Google Maps)</span></a></li>
+          <li>${phoneLink()}</li>
+          <li>${mailLink()}</li>
+        </ul>
+      </div>
+      <div class="fuss__spalte">
+        <h3 class="fuss__label">Erreichbarkeit</h3>
+        <ul class="fuss__liste fuss__liste--text">
+          <li><span class="nw">${HOURS.office.days} ${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr</span></li>
+          <li>telefonisch bis <span class="nw">${HOURS.phoneUntil}&nbsp;Uhr</span></li>
+        </ul>
+      </div>
     </div>
-    <nav class="fuss__nav" aria-label="Rechtliches">
-      <a href="/impressum">Impressum</a>
-      <a href="/datenschutz">Datenschutz</a>
-    </nav>
+    <div class="fuss__unten">
+      <p>© ${jahr} ${esc(SITE.name)}</p>
+      <nav class="fuss__recht" aria-label="Rechtliches">
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a class="fuss__smy" href="https://smyagency.de" rel="noopener">Website by SMY Agency</a>
+      </nav>
+    </div>
   </div>
-  <div class="wrap fuss__copy"><p>© ${SITE.founderYear} ${esc(SITE.name)}. Alle Rechte vorbehalten.</p></div>
 </footer>`;
 }

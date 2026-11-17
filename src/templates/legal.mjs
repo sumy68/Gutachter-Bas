@@ -26,7 +26,7 @@ ${header({ home: false })}
     <p class="recht__zurueck"><a class="btn btn--rahmen" href="/">Zurück zur Startseite</a></p>
   </div>
 </main>
-${footer()}
+${footer({ home: false })}
 <script type="module" src="/assets/js/unterseite.js?v=${V}"></script>
 </body>
 </html>

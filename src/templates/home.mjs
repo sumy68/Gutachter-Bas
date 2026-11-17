@@ -2,7 +2,7 @@
 import {
   OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT, FORM,
 } from "../site.config.mjs";
-import { esc, head, header, footer, phoneLink, mailLink, addressBlock, hoursText, marker, V } from "./layout.mjs";
+import { esc, head, header, footer, phoneLink, mailLink, addressBlock, hoursText, V } from "./layout.mjs";
 import { homeSchema } from "./schema.mjs";
 
 const IMG = "/assets/img";
@@ -170,7 +170,7 @@ const faq = () => `
 </section>`;
 
 const contact = () => `
-<section class="abschnitt kontakt" id="kontakt" data-szene="3" data-pos="3.3,0,0.95,0.6" data-pos-m="0,-1.8,0.5,0.22" aria-labelledby="kontakt-titel">
+<section class="abschnitt kontakt" id="kontakt" data-szene="3" data-pos="3.3,0,0.95,0" data-pos-m="0,-1.8,0.5,0" aria-labelledby="kontakt-titel">
   <div class="wrap kontakt__raster">
     <div class="kontakt__info">
       <h2 id="kontakt-titel" data-split>Gutachter in Ingolstadt anfragen</h2>
@@ -238,7 +238,7 @@ ${reviews()}
 ${faq()}
 ${contact()}
 </main>
-${footer()}
+${footer({ home: true })}
 <script src="/assets/vendor/gsap.min.js?v=${V}" defer></script>
 <script src="/assets/vendor/ScrollTrigger.min.js?v=${V}" defer></script>
 <script src="/assets/vendor/SplitText.min.js?v=${V}" defer></script>
@@ -250,4 +250,3 @@ ${footer()}
 `;
 }
 
-export { marker };

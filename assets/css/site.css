@@ -77,9 +77,11 @@ main{overflow-x:clip}
 .kopf{position:fixed;inset:0 0 auto;z-index:50;transition:background-color .3s,box-shadow .3s}
 .kopf.ist-gescrollt{background:rgba(11,11,12,.94);box-shadow:0 1px 0 var(--linie)}
 .kopf__innen{display:flex;align-items:center;gap:28px;height:var(--kopf-h);max-width:var(--max);margin-inline:auto;padding-inline:var(--rand)}
-.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:1.06rem;font-weight:500;letter-spacing:-.01em;white-space:nowrap}
-.logo b{font-weight:800}
-.logo .marker{color:var(--gold)}
+.logo{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);white-space:nowrap}
+.logo__zeichen{flex:none;color:var(--gold);transition:color .3s}
+.logo__wort{font-size:1.08rem;font-weight:550;letter-spacing:-.02em;line-height:1}
+.logo__wort b{font-weight:800;color:var(--gold);letter-spacing:-.01em}
+.logo:hover .logo__zeichen{color:var(--gold-hell)}
 .nav{display:flex;gap:26px;margin-left:auto}
 .nav a{position:relative;font-size:.95rem;color:var(--text-2);text-decoration:none;padding:6px 0;transition:color .2s}
 .nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
@@ -300,10 +302,10 @@ body.menue-offen{overflow:hidden}
 .kontaktliste dt{color:var(--text-2);font-size:.92rem;padding-top:.12em}
 .kontaktliste dd{margin:0;display:flex;flex-direction:column;gap:6px;font-size:1rem}
 .kontaktliste .textlink{font-size:.92rem;align-self:start}
-.formular{grid-column:7/span 6;background:rgba(21,21,23,.82);border:1px solid var(--linie);padding:clamp(22px,3vw,44px);display:grid;gap:22px}
+.formular{grid-column:7/span 6;background:var(--flaeche);border:1px solid var(--linie-stark);padding:clamp(28px,3.8vw,56px);display:grid;gap:26px}
 .feld{display:flex;flex-direction:column;gap:8px}
 .feld-paar{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.feld label{font-size:.92rem;color:var(--text-2)}
+.feld label{font-size:.9rem;font-weight:500;color:var(--text-2);letter-spacing:.005em}
 .optional{color:#8E897F;font-weight:400}
 .feld input,.feld textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(243,239,230,.28);border-radius:0;padding:10px 0;color:var(--text);font:inherit;font-size:1rem;transition:border-color .2s}
 .feld textarea{resize:vertical;min-height:110px}
@@ -311,7 +313,7 @@ body.menue-offen{overflow:hidden}
 .feld input:focus-visible,.feld textarea:focus-visible{box-shadow:0 1px 0 0 var(--gold)}
 .feld [aria-invalid="true"]{border-bottom-color:#E08A73}
 .feld__fehler{color:#F0A08C;font-size:.86rem}
-.datei{display:flex!important;align-items:center;gap:14px;padding:16px 18px;border:1px dashed var(--linie-stark);color:var(--text)!important;cursor:pointer;transition:border-color .2s,background-color .2s}
+.datei{display:flex!important;align-items:center;gap:14px;padding:16px 18px;font-size:.95rem;border:1px dashed var(--linie-stark);color:var(--text)!important;cursor:pointer;transition:border-color .2s,background-color .2s}
 .datei:hover{border-color:var(--gold);background:rgba(201,165,92,.06)}
 .datei svg{flex:none;width:24px;height:24px;fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linejoin:round}
 .feld--datei:focus-within .datei{outline:2px solid var(--gold-hell);outline-offset:3px}
@@ -334,15 +336,36 @@ body.menue-offen{overflow:hidden}
 }
 
 /* ---------- Footer ---------- */
-.fuss{border-top:1px solid var(--linie);background:var(--schwarz);padding-block:56px 32px}
-.fuss__innen{display:grid;grid-template-columns:1.2fr 1fr auto;gap:32px;align-items:start}
-.fuss__slogan{margin-top:14px;color:var(--text-2);font-size:.92rem}
-.fuss__kontakt{display:grid;gap:8px}
-.fuss__nav{display:flex;gap:24px}
-.fuss__nav a{color:var(--text-2);text-decoration:none;font-size:.95rem}
-.fuss__nav a:hover{color:var(--text)}
-.fuss__copy{margin-top:48px;color:#8E897F;font-size:.84rem}
-@media (max-width:760px){.fuss__innen{grid-template-columns:1fr}}
+.fuss{border-top:1px solid var(--linie-stark);background:#080809}
+.fuss__cta{display:grid;grid-template-columns:minmax(0,1.3fr) auto;align-items:end;gap:32px 48px;padding-block:clamp(64px,9vw,120px) clamp(48px,6vw,80px);border-bottom:1px solid var(--linie)}
+.fuss__titel{font-size:clamp(34px,4.2vw,60px);letter-spacing:-.035em;max-width:16ch}
+.fuss__aktion{display:flex;flex-wrap:wrap;align-items:center;gap:16px 32px}
+.fuss__telefon{font-size:clamp(22px,1.4vw + 12px,30px);font-weight:650;letter-spacing:-.02em;color:var(--text);text-decoration:none;white-space:nowrap;font-variant-numeric:tabular-nums;transition:color .2s}
+.fuss__telefon:hover{color:var(--gold-hell)}
+.fuss__raster{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:40px clamp(24px,3vw,48px);align-items:start;padding-block:clamp(48px,6vw,72px)}
+.fuss__spalte{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.fuss__label{font-size:12.5px;font-weight:500;letter-spacing:.07em;line-height:1.2;color:var(--text-2);margin-bottom:20px}
+.fuss__text{margin-top:16px;color:var(--text-2);font-size:.95rem;line-height:1.55;max-width:30ch}
+.fuss__liste{list-style:none;margin:0;padding:0;display:grid;gap:11px;font-size:.95rem;line-height:1.45}
+.fuss__liste a{color:var(--text);text-decoration:none;transition:color .2s}
+.fuss__liste a:hover{color:var(--gold-hell)}
+.fuss .kontaktwert{font-size:.95rem;font-weight:500;color:var(--text)}
+.fuss .kontaktwert:hover{color:var(--gold-hell)}
+.fuss__liste--text{color:var(--text)}
+.fuss__unten{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 32px;padding-block:24px 32px;border-top:1px solid var(--linie);font-size:.84rem;color:var(--text-2)}
+.fuss__recht{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
+.fuss__recht a{color:var(--text-2);text-decoration:none;transition:color .2s}
+.fuss__recht a:hover{color:var(--text)}
+.fuss__recht .fuss__smy{color:#8E897F}
+@media (max-width:980px){
+  .fuss__cta{grid-template-columns:1fr;align-items:start}
+  .fuss__raster{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:48px}
+}
+@media (max-width:560px){
+  .fuss__raster{grid-template-columns:1fr;row-gap:44px}
+  .fuss__aktion{flex-direction:column;align-items:flex-start}
+  .fuss__unten{flex-direction:column;align-items:flex-start}
+}
 
 /* ---------- Rechtliche Unterseiten ---------- */
 .recht{padding-top:calc(var(--kopf-h) + clamp(48px,8vw,110px));padding-bottom:clamp(72px,10vw,140px)}
