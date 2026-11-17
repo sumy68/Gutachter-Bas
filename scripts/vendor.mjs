@@ -14,6 +14,8 @@ const FILES = [
   [nm("lenis/dist/lenis.min.js"), "assets/vendor/lenis.min.js"],
   // three.js r149: letzte UMD-Version ohne Deprecation-Warnung (wie bei smyagency nachgeladen)
   [nm("three/build/three.min.js"), "assets/vendor/three.min.js"],
+  // Orbitron: Schrift der Original-Wortmarke „Gutachter BAS" (nur für das Logo)
+  [nm("@fontsource/orbitron/files/orbitron-latin-400-normal.woff2"), "assets/fonts/orbitron-latin-400.woff2"],
   [
     nm("@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2"),
     "assets/fonts/schibsted-grotesk-latin.woff2",

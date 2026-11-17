@@ -36,11 +36,10 @@ export const addressLink = (cls = "") =>
 export const hoursLines = (cls = "") =>
   `<span class="kontaktwert ${cls}"><span class="nw">${HOURS.office.days}&nbsp;${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr</span><br><span class="nw">Telefonisch bis ${HOURS.phoneUntil}&nbsp;Uhr</span></span>`;
 
-// Wortmarke: selbst gezeichnetes Monogramm „B" (Linienzeichnung) in feiner Gold-Umrandung
-// + „Gutachter" (Off-White) + „BAS" (Gold). Gleiches Logo in Navbar und Footer.
-const MONOGRAMM = `<svg class="logo__zeichen" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false"><rect x=".75" y=".75" width="26.5" height="26.5" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M10 7.5V20.5M10 7.5h4.6a3.1 3.1 0 0 1 0 6.2H10M10 13.7h5.3a3.4 3.4 0 0 1 0 6.8H10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>`;
+// Original-Logo von Gutachter BAS (Markup der Website vor dem Redesign): Wortmarke in Orbitron,
+// „Gutachter" hell, „BAS" in Gold. Gleiches Logo in Navbar und Footer.
 export const logo = (label = "Gutachter BAS – zur Startseite") =>
-  `<a class="logo" href="/" aria-label="${esc(label)}">${MONOGRAMM}<span class="logo__wort">Gutachter <b>BAS</b></span></a>`;
+  `<a class="logo" href="/" aria-label="${esc(label)}"><span class="logo__wort">Gutachter <span class="logo__bas">BAS</span></span></a>`;
 
 const FONT = "/assets/fonts/schibsted-grotesk-latin.woff2";
 
@@ -74,7 +73,9 @@ export function head({ title, description, path, ogImage, extraHead = "", preloa
 <meta property="og:image:alt" content="Kfz-Gutachter Ismayil Bas in Ingolstadt">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="${FONT}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/orbitron-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 ${preloadImage}
 <style>${CSS}</style>
 <script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('ruhig');</script>

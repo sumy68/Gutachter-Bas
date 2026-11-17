@@ -20,7 +20,6 @@ const JOBS = [
   { name: "kfz-gutachter-zertifikat-iso-9001", widths: [null] },
   { name: "kfz-sachverstaendiger-desag-logo", widths: [null] },
 ];
-const OG_BILD = "gutachter-bas-kfz-gutachter-ingolstadt.jpg";
 
 async function encode(input, base, width) {
   const pipeline = () => {
@@ -47,12 +46,7 @@ async function run() {
     }
   }
 
-  // Open-Graph-Bild 1200×630 (Ausschnitt aus dem Porträt, Fokus oben).
-  await sharp(join(SRC, `${PORTRAIT}.jpg`))
-    .resize({ width: 1200, height: 630, fit: "cover", position: "top" })
-    .jpeg({ quality: 82, mozjpeg: true })
-    .toFile(join(OUT, OG_BILD));
-  console.log("Open-Graph-Bild erstellt");
+  // Open-Graph-Bild: siehe scripts/logo.mjs (aus der Original-Wortmarke abgeleitet)
 }
 
 run().catch((err) => {

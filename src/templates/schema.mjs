@@ -14,7 +14,7 @@ function business() {
       "Zertifizierter Kfz-Gutachter in Ingolstadt: Schadengutachten (Unfallgutachten), Oldtimerbewertung, Leasingrücknahmebewertung, Fahrzeugverwertung, Kostenvoranschlag und Kaufberatung.",
     url: `${SITE.url}/`,
     image: `${SITE.url}/assets/img/kfz-gutachter-ingolstadt-ismayil-bas-1086.jpg`,
-    logo: `${SITE.url}/favicon.svg`,
+    logo: `${SITE.url}/assets/img/gutachter-bas-logo.png`,
     telephone: CONTACT.phoneSchema,
     email: CONTACT.email,
     founder: { "@type": "Person", name: OWNER.name, jobTitle: OWNER.jobTitle },
