@@ -389,7 +389,7 @@ body.menue-offen{overflow:hidden}
 .recht{padding-top:calc(var(--kopf-h) + clamp(48px,8vw,110px));padding-bottom:clamp(72px,10vw,140px)}
 .recht__wrap{max-width:860px}
 .recht__kopf{padding-bottom:36px;margin-bottom:12px;border-bottom:1px solid var(--linie)}
-.recht__kopf h1{font-size:clamp(40px,6vw,76px);letter-spacing:-.04em}
+.recht__kopf h1{font-size:clamp(40px,6vw,76px);letter-spacing:-.04em;hyphens:auto;overflow-wrap:break-word}
 .recht__kopf p{margin-top:14px;color:var(--text-2)}
 .recht__block{padding:32px 0;border-bottom:1px solid var(--linie)}
 .recht__block h2{font-size:clamp(21px,1vw + 14px,26px);margin-bottom:16px}
@@ -403,6 +403,12 @@ body.menue-offen{overflow:hidden}
 .recht__klein{font-size:.9rem}
 .recht__stand{margin-top:32px;color:#8E897F;font-size:.9rem}
 .recht__zurueck{margin-top:40px}
+/* Mobil: H1 so klein, dass „Datenschutzerklärung" (≈ 10,3 em breit) bei 360 px inkl. Rand passt; ruhigere Textgrößen */
+@media (max-width:767px){
+  .recht__kopf h1{font-size:clamp(28px,8.6vw,40px)}
+  .recht__kopf p,.recht__block p,.recht__block li{font-size:16px}
+  .recht__block h2{font-size:22px}
+}
 
 /* ---------- Motion-Grundzustände (nur mit JS und ohne „Bewegung reduzieren") ---------- */
 /* H1, Lead und Buttons im Hero sind bewusst sofort sichtbar (LCP) – nur das Wechselwort bewegt sich. */
