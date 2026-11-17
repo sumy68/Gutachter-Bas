@@ -43,8 +43,10 @@ const imLeerlauf = (fn, timeout = 1500) =>
 // Früher Start: direkt nach dem ersten Paint (zwei rAF) plus kurzer Leerlauf-Slot – nicht erst nach
 // window.load. H1, Text und Buttons sind dann schon gezeichnet; three.js ist per <link rel="preload"> vorgeladen.
 const START_LEERLAUF_MS = 150;
+// Safari kennt kein requestIdleCallback: für den Start dort nur einen Frame warten statt 200 ms
 function nachErstemPaint(fn) {
-  requestAnimationFrame(() => requestAnimationFrame(() => imLeerlauf(fn, START_LEERLAUF_MS)));
+  const slot = () => ("requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: START_LEERLAUF_MS }) : setTimeout(fn, 16));
+  requestAnimationFrame(() => requestAnimationFrame(slot));
 }
 
 function threeLaden() {
