@@ -3,7 +3,8 @@
    data-pos / data-pos-m = "x,y,Größe,Deckkraft" (Desktop / Mobil).
 
    Performance (gleiches Vorgehen wie smyagency):
-   - Start erst nach window.load + Leerlauf; three.js wird erst dann nachgeladen.
+   - Start direkt nach dem ersten Paint + kurzem Leerlauf-Slot; three.js ist per preload
+     (niedrige Priorität) vorgeladen, das Szenen-Modul per modulepreload.
    - Init in kleinen Häppchen (scheduler.yield, Fallback setTimeout) statt eines langen Tasks.
    - Pixeldichte bis 2 nur mit echter GPU; Partikelanzahl an die Bildschirmfläche gekoppelt.
    - Ohne GPU (Software-Rendering), bei „Bewegung reduzieren" oder sehr schwachen Geräten: Standbild.
@@ -18,7 +19,7 @@ const N_MAX = 22000, N_MIN = 7000, REF_FLAECHE = 1920 * 1080;
 const SW_N_FAKTOR = 0.5, SW_N_MIN = 4000;
 const ADAPT_FENSTER_MS = 2000, ADAPT_SCHLECHTE_FENSTER = 2, ADAPT_ZIEL_FPS = 40, ADAPT_STATISCH_FPS = 17;
 const ADAPT_AUFWAERMEN_MS = 2500, ADAPT_SCHRITT = 0.75, ADAPT_MIN_ANTEIL = 0.35;
-const STARTVERZUG_MS = 1200, RESIZE_DEBOUNCE_MS = 150;
+const RESIZE_DEBOUNCE_MS = 150;
 const SCAN_ZYKLUS_S = 5.5;
 
 const html = document.documentElement;
@@ -38,10 +39,11 @@ const pause = () =>
 const imLeerlauf = (fn, timeout = 1500) =>
   "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout }) : setTimeout(fn, 200);
 
-function nachDemLaden(fn) {
-  const verzoegert = () => setTimeout(() => imLeerlauf(fn), Math.max(0, STARTVERZUG_MS - performance.now()));
-  if (document.readyState === "complete") verzoegert();
-  else addEventListener("load", verzoegert, { once: true });
+// Früher Start: direkt nach dem ersten Paint (zwei rAF) plus kurzer Leerlauf-Slot – nicht erst nach
+// window.load. H1, Text und Buttons sind dann schon gezeichnet; three.js ist per <link rel="preload"> vorgeladen.
+const START_LEERLAUF_MS = 150;
+function nachErstemPaint(fn) {
+  requestAnimationFrame(() => requestAnimationFrame(() => imLeerlauf(fn, START_LEERLAUF_MS)));
 }
 
 function threeLaden() {
@@ -91,7 +93,7 @@ function webglMoeglich() {
 
 if (canvas) {
   if (!webglMoeglich()) ohneWebGL("WebGL nicht verfügbar");
-  else nachDemLaden(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
+  else nachErstemPaint(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
 }
 
 async function start() {
@@ -372,5 +374,6 @@ async function start() {
   });
 
   html.classList.add("partikel-bereit");
+  performance.mark(statisch ? "partikel-standbild" : "partikel-einflug"); // Messpunkt: Start der Einflug-Animation
   anstossen();
 }

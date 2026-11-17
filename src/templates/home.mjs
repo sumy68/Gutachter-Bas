@@ -222,7 +222,10 @@ export function renderHome() {
     title: "Kfz-Gutachter Ingolstadt – Unfallgutachten & Bewertung | Gutachter BAS",
     description: `Zertifizierter Kfz-Gutachter in Ingolstadt: Unfallgutachten, Oldtimerbewertung, Leasingrückgabe-Gutachten, Kostenvoranschlag und Kaufberatung. Jetzt anfragen: ${CONTACT.phoneDisplay}`,
     path: "/",
-    extraHead: homeSchema(),
+    extraHead: `${homeSchema()}
+<link rel="modulepreload" href="/assets/js/partikel.js?v=${V}">
+<link rel="modulepreload" href="/assets/js/partikel-formen.js">
+<link rel="preload" href="/assets/vendor/three.min.js" as="script" fetchpriority="low">`,
   })}
 <body class="startseite">
 ${header({ home: true })}
