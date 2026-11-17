@@ -3,8 +3,9 @@
    data-pos / data-pos-m = "x,y,Größe,Deckkraft" (Desktop / Mobil).
 
    Performance (gleiches Vorgehen wie smyagency):
-   - Start direkt nach dem ersten Paint + kurzem Leerlauf-Slot; three.js ist per preload
+   - Mit echter GPU: Start direkt nach dem ersten Paint + kurzem Leerlauf-Slot; three.js ist per preload
      (niedrige Priorität) vorgeladen, das Szenen-Modul per modulepreload.
+   - Nur Software-Rendering (Standbild): später, schonender Start nach window.load.
    - Init in kleinen Häppchen (scheduler.yield, Fallback setTimeout) statt eines langen Tasks.
    - Pixeldichte bis 2 nur mit echter GPU; Partikelanzahl an die Bildschirmfläche gekoppelt.
    - Ohne GPU (Software-Rendering), bei „Bewegung reduzieren" oder sehr schwachen Geräten: Standbild.
@@ -45,6 +46,14 @@ const START_LEERLAUF_MS = 150;
 function nachErstemPaint(fn) {
   requestAnimationFrame(() => requestAnimationFrame(() => imLeerlauf(fn, START_LEERLAUF_MS)));
 }
+// Ohne echte GPU (Software-Rendering) gibt es ohnehin nur das Standbild – dort bleibt der schonende,
+// späte Start nach window.load, damit die teure Software-WebGL-Arbeit nicht in die Ladephase fällt.
+const SPAETSTART_MS = 1200;
+function nachDemLaden(fn) {
+  const verzoegert = () => setTimeout(() => imLeerlauf(fn), Math.max(0, SPAETSTART_MS - performance.now()));
+  if (document.readyState === "complete") verzoegert();
+  else addEventListener("load", verzoegert, { once: true });
+}
 
 function threeLaden() {
   return new Promise((ok, fehler) => {
@@ -78,22 +87,28 @@ const leseLage = (el, mobil) => {
   return { x, y, s, op };
 };
 
-// WebGL vorab mit einem Wegwerf-Canvas prüfen: ohne Kontext wird three.js (600 KB) gar nicht geladen
-function webglMoeglich() {
-  if (!("WebGLRenderingContext" in window)) return false;
+// WebGL vorab mit einem Wegwerf-Canvas prüfen: ohne Kontext wird three.js (600 KB) gar nicht geladen.
+// Liefert zusätzlich, ob nur Software-Rendering (keine echte GPU) zur Verfügung steht.
+function webglPruefen() {
+  if (!("WebGLRenderingContext" in window)) return { ok: false };
   try {
     const c = document.createElement("canvas");
     const gl = c.getContext("webgl", { failIfMajorPerformanceCaveat: false }) || c.getContext("experimental-webgl");
-    gl?.getExtension("WEBGL_lose_context")?.loseContext();
-    return !!gl;
+    if (!gl) return { ok: false };
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+    const name = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return { ok: true, software: /swiftshader|llvmpipe|softpipe|software|basic render/i.test(name) };
   } catch {
-    return false;
+    return { ok: false };
   }
 }
 
+const webgl = canvas ? webglPruefen() : { ok: false };
 if (canvas) {
-  if (!webglMoeglich()) ohneWebGL("WebGL nicht verfügbar");
-  else nachErstemPaint(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
+  const planen = webgl.software ? nachDemLaden : nachErstemPaint;
+  if (!webgl.ok) ohneWebGL("WebGL nicht verfügbar");
+  else planen(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
 }
 
 async function start() {
