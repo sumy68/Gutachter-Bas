@@ -123,12 +123,12 @@ export function footer({ home = true } = {}) {
       </div>
     </div>
     <div class="fuss__raster">
-      <div class="fuss__spalte">
+      <div class="fuss__spalte fuss__spalte--marke">
         <h3 class="fuss__label">Gutachter BAS</h3>
         ${logo("Gutachter BAS – Startseite")}
         <p class="fuss__text">Unabhängige Kfz-Gutachten in ${esc(CONTACT.city)} seit über ${OWNER.yearsExperience}&nbsp;Jahren.</p>
       </div>
-      <nav class="fuss__spalte" aria-labelledby="fuss-leistungen">
+      <nav class="fuss__spalte fuss__spalte--leistungen" aria-labelledby="fuss-leistungen">
         <h3 class="fuss__label" id="fuss-leistungen">Leistungen</h3>
         <ul class="fuss__liste">${leistungen}</ul>
       </nav>
