@@ -25,6 +25,10 @@ export const V = SITE.lastmod.replace(/-/g, "");
 // ---------- Kontakt-Snippets (einheitlich gestaltet, nie umbrechend) ----------
 export const phoneLink = (cls = "") =>
   `<a class="kontaktwert ${cls}" href="${CONTACT.phoneHref}">${esc(CONTACT.phoneDisplay)}</a>`;
+// Telefonnummer als eigenständiger Link mit Telefon-Icon (Hero), gleiche Klasse wie alle Kontaktwerte
+const TELEFON_ICON = `<svg class="tel-link__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.7 3.5h2.6l1.3 3.8-1.9 1.3a10.6 10.6 0 0 0 5.7 5.7l1.3-1.9 3.8 1.3v2.6a1.9 1.9 0 0 1-2.1 1.9A16 16 0 0 1 4.8 5.6a1.9 1.9 0 0 1 1.9-2.1z"/></svg>`;
+export const phoneLinkIcon = (cls = "") =>
+  `<a class="kontaktwert tel-link ${cls}" href="${CONTACT.phoneHref}">${TELEFON_ICON}<span>${esc(CONTACT.phoneDisplay)}</span></a>`;
 export const mailLink = (cls = "") =>
   `<a class="kontaktwert ${cls}" href="mailto:${CONTACT.email}">${esc(CONTACT.email)}</a>`;
 // Adresse = Maps-Link, gestaltet exakt wie Telefon und E-Mail (Klasse kontaktwert)

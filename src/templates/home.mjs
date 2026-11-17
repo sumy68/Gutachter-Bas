@@ -2,7 +2,7 @@
 import {
   OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT, FORM,
 } from "../site.config.mjs";
-import { esc, head, header, footer, phoneLink, mailLink, addressLink, hoursLines, V } from "./layout.mjs";
+import { esc, head, header, footer, phoneLink, phoneLinkIcon, mailLink, addressLink, hoursLines, V } from "./layout.mjs";
 import { homeSchema } from "./schema.mjs";
 
 const IMG = "/assets/img";
@@ -34,7 +34,7 @@ const hero = () => `
     <p class="held__lead">${esc(OWNER.name)} ist Ihr zertifizierter <span class="nw">Kfz-Gutachter</span> in Ingolstadt – für Unfallgutachten, Bewertungen und Kaufberatung, seit über ${OWNER.yearsExperience}&nbsp;Jahren.</p>
     <div class="held__aktion">
       <a class="btn" href="#kontakt">Jetzt Gutachter anfragen</a>
-      <p class="held__tel">oder anrufen: ${phoneLink()}</p>
+      ${phoneLinkIcon("held__tel")}
     </div>
   </div>
   <div class="wrap held__fuss">
