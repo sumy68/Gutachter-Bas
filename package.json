@@ -1,13 +1,21 @@
 {
   "name": "gutachter-bas-website",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Statische Website Gutachter BAS – KFZ-Gutachter Ingolstadt",
+  "description": "Statische Website Gutachter BAS – Kfz-Gutachter Ingolstadt (GitHub Pages)",
+  "type": "module",
   "scripts": {
-    "build:css": "tailwindcss -c ./tailwind.config.js -i ./src/tailwind-input.css -o ./tailwind.css --minify",
-    "watch:css": "tailwindcss -c ./tailwind.config.js -i ./src/tailwind-input.css -o ./tailwind.css --watch"
+    "build": "node scripts/build.mjs",
+    "images": "node scripts/images.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "all": "npm run vendor && npm run images && npm run build",
+    "serve": "node scripts/serve.mjs"
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.19"
+    "@fontsource-variable/schibsted-grotesk": "^5.2.5",
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.4",
+    "sharp": "^0.34.3",
+    "three": "^0.149.0"
   }
 }
