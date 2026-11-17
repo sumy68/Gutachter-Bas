@@ -1,80 +1,95 @@
-// Leitet Favicon, Apple-Touch-Icon, Logo-PNG (JSON-LD) und Open-Graph-Bild aus dem
-// ORIGINAL-Logo von Gutachter BAS ab: Wortmarke „Gutachter BAS" in Orbitron,
-// „Gutachter" hell, „BAS" in Gold (Markup der Website vor dem Redesign).
-// Die Schrift wird in Pfade umgewandelt – das Ergebnis hängt nicht von installierten Fonts ab.
+// Leitet aus dem ORIGINAL-Logo von Gutachter BAS (assets/img/kfz-gutachter-ingolstadt-ismayil-bas-logo.png,
+// gold auf schwarzem Grund – wird NICHT verändert) alle Logo-Varianten ab:
+//  - Header-Logo: Rand weggetrimmt, ca. 4 % Luft, gegen Schwarz freigestellt (transparent, ohne Säume) → PNG + WebP
+//  - Favicon (48 px) und Apple-Touch-Icon (180 px) aus dem Kreis-Emblem
+//  - Open-Graph-Bild 1200×630 (Logo + Ort)
 import opentype from "opentype.js";
 import sharp from "sharp";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const nm = (p) => join(root, "node_modules", p);
-const FARBE = { grund: "#0B0B0C", text: "#F3EFE6", gold: "#C9A55C", grau: "#A8A39A", linie: "rgba(201,165,92,.55)" };
+const IMG = join(root, "assets/img");
+const QUELLE = join(IMG, "kfz-gutachter-ingolstadt-ismayil-bas-logo.png");
+const ZIEL = "kfz-gutachter-ingolstadt-ismayil-bas-logo-header";
+const LUFT = 0.04;            // Luft rundherum (Anteil der Motivgröße)
+const HEADER_HOEHE = 168;     // Pixelhöhe der Datei (≥ 3× der Anzeigehöhe von max. 56 px → scharf auf Retina)
+const ALPHA_MIN = 0.02;       // Pixel darunter gelten als Hintergrund
+const GRUND = "#0B0B0C";
 
-const ladeFont = async (p) => {
-  const buf = await readFile(nm(p));
-  return opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
-};
-
-// Pfaddaten selbst serialisieren: Null-Segmente (z. B. im „r" von Orbitron) weglassen –
-// die eingebaute Serialisierung erzeugt daraus je nach Position fehlerhafte Formen.
-const zahl = (n) => (Math.round(n * 100) / 100).toString();
-function pfadDaten(befehle) {
-  let teile = [], px = null, py = null;
-  for (const c of befehle) {
-    if (c.type === "L" && c.x === px && c.y === py) continue;
-    if (c.type === "M") teile.push(`M${zahl(c.x)} ${zahl(c.y)}`);
-    else if (c.type === "L") teile.push(`L${zahl(c.x)} ${zahl(c.y)}`);
-    else if (c.type === "Q") teile.push(`Q${zahl(c.x1)} ${zahl(c.y1)} ${zahl(c.x)} ${zahl(c.y)}`);
-    else if (c.type === "C") teile.push(`C${zahl(c.x1)} ${zahl(c.y1)} ${zahl(c.x2)} ${zahl(c.y2)} ${zahl(c.x)} ${zahl(c.y)}`);
-    else if (c.type === "Z") teile.push("Z");
-    if (c.type !== "Z") { px = c.x; py = c.y; }
+// Freistellen gegen Schwarz: Deckkraft aus der Helligkeit relativ zum hellsten Gold,
+// Farbe zurückgerechnet (C = a·Gold → Gold = C / a). Dadurch keine dunklen Ränder an den Kanten.
+async function freistellen(datei) {
+  const { data, info } = await sharp(datei).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const n = info.width * info.height;
+  const maxima = new Uint8Array(n);
+  for (let i = 0; i < n; i++) maxima[i] = Math.max(data[i * 3], data[i * 3 + 1], data[i * 3 + 2]);
+  const hell = [...maxima].filter((m) => m > 40).sort((a, b) => a - b);
+  const referenz = hell.length ? hell[Math.floor(hell.length * 0.95)] : 255; // robustes „volles Gold"
+  const rgba = Buffer.alloc(n * 4);
+  let x0 = info.width, y0 = info.height, x1 = -1, y1 = -1;
+  for (let i = 0; i < n; i++) {
+    const a = Math.min(1, maxima[i] / referenz);
+    if (a < ALPHA_MIN) continue;
+    const o = i * 4;
+    for (let k = 0; k < 3; k++) rgba[o + k] = Math.min(255, Math.round(data[i * 3 + k] / a));
+    rgba[o + 3] = Math.round(a * 255);
+    const x = i % info.width, y = (i - x) / info.width;
+    if (x < x0) x0 = x;
+    if (x > x1) x1 = x;
+    if (y < y0) y0 = y;
+    if (y > y1) y1 = y;
   }
-  return teile.join("");
+  if (x1 < 0) throw new Error("Kein Logo-Motiv gefunden");
+  return { rgba, info, box: { left: x0, top: y0, width: x1 - x0 + 1, height: y1 - y0 + 1 } };
 }
-// Ein <path> pro Buchstabe
-const pfade = (font, text, x, y, groesse, farbe) =>
-  font.getPaths(text, x, y, groesse).filter((p) => p.commands.length)
-    .map((p) => `<path d="${pfadDaten(p.commands)}" fill="${farbe}"/>`).join("");
 
-// Wortmarke als SVG-Pfade: liefert { svg, breite } für eine Grundlinie bei y
-function wortmarke(font, groesse, x, y) {
-  const teil1 = "Gutachter ", teil2 = "BAS";
-  const b1 = font.getAdvanceWidth(teil1, groesse);
-  return {
-    svg: pfade(font, teil1, x, y, groesse, FARBE.text) + pfade(font, teil2, x + b1, y, groesse, FARBE.gold),
-    breite: b1 + font.getAdvanceWidth(teil2, groesse),
-  };
-}
+const z = (n) => (Math.round(n * 100) / 100).toString();
+const pfadDaten = (befehle) => befehle.map((c) =>
+  c.type === "M" ? `M${z(c.x)} ${z(c.y)}` : c.type === "L" ? `L${z(c.x)} ${z(c.y)}`
+  : c.type === "Q" ? `Q${z(c.x1)} ${z(c.y1)} ${z(c.x)} ${z(c.y)}`
+  : c.type === "C" ? `C${z(c.x1)} ${z(c.y1)} ${z(c.x2)} ${z(c.y2)} ${z(c.x)} ${z(c.y)}` : "Z").join("");
 
 async function run() {
-  const orbitron = await ladeFont("@fontsource/orbitron/files/orbitron-latin-400-normal.woff");
-  const orbitronFett = await ladeFont("@fontsource/orbitron/files/orbitron-latin-700-normal.woff");
-  const grotesk = await ladeFont("@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-500-normal.woff");
+  const { rgba, info, box } = await freistellen(QUELLE);
+  const motiv = await sharp(rgba, { raw: { width: info.width, height: info.height, channels: 4 } }).extract(box).png().toBuffer();
+  const px = Math.round(box.width * LUFT), py = Math.round(box.height * LUFT);
+  const mitLuft = await sharp(motiv)
+    .extend({ top: py, bottom: py, left: px, right: px, background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
 
-  // 1) Favicon: „BAS" in Gold auf Schwarz (fette Orbitron-Variante für Lesbarkeit bei 16–32 px)
-  const fg = 11.2, fb = orbitronFett.getAdvanceWidth("BAS", fg);
-  const favPfade = pfade(orbitronFett, "BAS", (32 - fb) / 2, 20.1, fg, FARBE.gold);
-  const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="${FARBE.grund}"/>${favPfade}</svg>\n`;
-  await writeFile(join(root, "favicon.svg"), favicon);
-  await sharp(Buffer.from(favicon), { density: 600 }).resize(180, 180).png().toFile(join(root, "apple-touch-icon.png"));
+  // 1) Header-Logo (PNG + WebP, transparent)
+  await sharp(mitLuft).resize({ height: HEADER_HOEHE, kernel: "lanczos3" }).png({ compressionLevel: 9 }).toFile(join(IMG, `${ZIEL}.png`));
+  await sharp(mitLuft).resize({ height: HEADER_HOEHE, kernel: "lanczos3" }).webp({ quality: 92, alphaQuality: 100 }).toFile(join(IMG, `${ZIEL}.webp`));
+  const m = await sharp(join(IMG, `${ZIEL}.png`)).metadata();
+  console.log(`Header-Logo: ${m.width}×${m.height} px (Motiv ${box.width}×${box.height} im Original ${info.width}×${info.height})`);
 
-  // 2) Logo-PNG für JSON-LD / Verzeichnisse (2x-Auflösung, dunkler Grund)
-  const lg = 72, lw = wortmarke(orbitron, lg, 0, 0).breite, LW = Math.ceil(lw + 96), LH = 180;
-  const logo = wortmarke(orbitron, lg, (LW - lw) / 2, 112);
-  await sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${LW}" height="${LH}"><rect width="100%" height="100%" fill="${FARBE.grund}"/>${logo.svg}</svg>`))
-    .png({ compressionLevel: 9 }).toFile(join(root, "assets/img/gutachter-bas-logo.png"));
+  // 2) Favicon + Apple-Touch-Icon: Kreis-Emblem (linker, quadratischer Teil des Motivs) auf dunklem Grund
+  const seite = Math.min(box.height, box.width);
+  const emblem = await sharp(motiv).extract({ left: 0, top: 0, width: seite, height: box.height }).png().toBuffer();
+  const icon = async (groesse, rand, datei) => {
+    const innen = Math.round(groesse * (1 - 2 * rand));
+    const e = await sharp(emblem).resize(innen, innen, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+    const r = Math.round(groesse * 0.18);
+    const grund = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${groesse}" height="${groesse}"><rect width="${groesse}" height="${groesse}" rx="${r}" fill="${GRUND}"/></svg>`);
+    await sharp(grund).composite([{ input: e, gravity: "center" }]).png({ compressionLevel: 9 }).toFile(join(root, datei));
+  };
+  await icon(48, 0.1, "favicon.png");
+  await icon(180, 0.14, "apple-touch-icon.png");
 
-  // 3) Open-Graph-Bild 1200×630: Wortmarke + Ort, feine Gold-Haarlinie
-  const og = 92, ow = wortmarke(orbitron, og, 0, 0).breite;
-  const marke = wortmarke(orbitron, og, (1200 - ow) / 2, 318);
-  const zeile = "Kfz-Gutachter in Ingolstadt", zg = 40, zw = grotesk.getAdvanceWidth(zeile, zg);
-  const zeilePfade = pfade(grotesk, zeile, (1200 - zw) / 2, 410, zg, FARBE.grau);
-  const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="${FARBE.grund}"/>${marke.svg}<rect x="560" y="352" width="80" height="2" fill="${FARBE.gold}"/>${zeilePfade}<rect x="0" y="628" width="1200" height="2" fill="${FARBE.linie}"/></svg>`;
-  await sharp(Buffer.from(ogSvg)).jpeg({ quality: 88, mozjpeg: true }).toFile(join(root, "assets/img/gutachter-bas-kfz-gutachter-ingolstadt.jpg"));
+  // 3) Open-Graph-Bild 1200×630: Original-Logo + Ort
+  const ogLogo = await sharp(mitLuft).resize({ height: 300 }).png().toBuffer();
+  const ogBreite = (await sharp(ogLogo).metadata()).width;
+  const buf = await readFile(join(root, "node_modules/@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-500-normal.woff"));
+  const font = opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
+  const zeile = "Kfz-Gutachter in Ingolstadt", zg = 40, zw = font.getAdvanceWidth(zeile, zg);
+  const zeilePfade = font.getPaths(zeile, (1200 - zw) / 2, 520, zg).filter((p) => p.commands.length)
+    .map((p) => `<path d="${pfadDaten(p.commands)}" fill="#A8A39A"/>`).join("");
+  const og = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="${GRUND}"/>${zeilePfade}<rect x="0" y="628" width="1200" height="2" fill="rgba(201,165,92,.55)"/></svg>`);
+  await sharp(og).composite([{ input: ogLogo, top: 130, left: Math.round((1200 - ogBreite) / 2) }])
+    .jpeg({ quality: 88, mozjpeg: true }).toFile(join(IMG, "gutachter-bas-kfz-gutachter-ingolstadt.jpg"));
 
-  console.log("Favicon, Apple-Touch-Icon, Logo-PNG und OG-Bild aus der Original-Wortmarke erzeugt");
+  console.log("Favicon, Apple-Touch-Icon und OG-Bild aus dem Original-Logo erzeugt");
 }
 
 run().catch((err) => {

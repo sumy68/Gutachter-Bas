@@ -36,10 +36,11 @@ export const addressLink = (cls = "") =>
 export const hoursLines = (cls = "") =>
   `<span class="kontaktwert ${cls}"><span class="nw">${HOURS.office.days}&nbsp;${HOURS.office.opens}–${HOURS.office.closes}&nbsp;Uhr</span><br><span class="nw">Telefonisch bis ${HOURS.phoneUntil}&nbsp;Uhr</span></span>`;
 
-// Original-Logo von Gutachter BAS (Markup der Website vor dem Redesign): Wortmarke in Orbitron,
-// „Gutachter" hell, „BAS" in Gold. Gleiches Logo in Navbar und Footer.
-export const logo = (label = "Gutachter BAS – zur Startseite") =>
-  `<a class="logo" href="/" aria-label="${esc(label)}"><span class="logo__wort">Gutachter <span class="logo__bas">BAS</span></span></a>`;
+// Original-Logo von Gutachter BAS (Kreis-Emblem + BAS KFZ-Sachverständigenbüro), zugeschnitten und freigestellt
+// per scripts/logo.mjs. Gleiches Logo in Navbar und Footer, verlinkt auf die Startseite.
+const LOGO = "/assets/img/kfz-gutachter-ingolstadt-ismayil-bas-logo-header";
+export const logo = () =>
+  `<a class="logo" href="/"><picture><source type="image/webp" srcset="${LOGO}.webp"><img class="logo__bild" src="${LOGO}.png" alt="Kfz-Gutachter Ismayil Bas Ingolstadt Logo" width="499" height="168" decoding="async"></picture></a>`;
 
 const FONT = "/assets/fonts/schibsted-grotesk-latin.woff2";
 
@@ -72,10 +73,9 @@ export function head({ title, description, path, ogImage, extraHead = "", preloa
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Kfz-Gutachter Ismayil Bas in Ingolstadt">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="${FONT}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/orbitron-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 ${preloadImage}
 <style>${CSS}</style>
 <script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('ruhig');</script>
@@ -125,7 +125,7 @@ export function footer({ home = true } = {}) {
     <div class="fuss__raster">
       <div class="fuss__spalte fuss__spalte--marke">
         <h3 class="fuss__label">Gutachter BAS</h3>
-        ${logo("Gutachter BAS – Startseite")}
+        ${logo()}
         <p class="fuss__text">Unabhängige Kfz-Gutachten in ${esc(CONTACT.city)} seit über ${OWNER.yearsExperience}&nbsp;Jahren.</p>
       </div>
       <nav class="fuss__spalte fuss__spalte--leistungen" aria-labelledby="fuss-leistungen">

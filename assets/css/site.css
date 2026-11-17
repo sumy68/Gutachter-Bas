@@ -2,8 +2,6 @@
    Leitmotiv: Messskala (Prüfstand). Animiert werden nur transform/opacity/clip-path. */
 
 @font-face{font-family:"Schibsted Grotesk";font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/schibsted-grotesk-latin.woff2) format("woff2-variations"),url(/assets/fonts/schibsted-grotesk-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-/* Orbitron: nur für die Original-Wortmarke „Gutachter BAS" */
-@font-face{font-family:"Orbitron";font-style:normal;font-weight:400;font-display:swap;src:url(/assets/fonts/orbitron-latin-400.woff2) format("woff2")}
 @font-face{font-family:"Schibsted Grotesk";font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/schibsted-grotesk-latin-ext.woff2) format("woff2-variations"),url(/assets/fonts/schibsted-grotesk-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+20A0-20AB,U+20AD-20C0,U+2C60-2C7F,U+A720-A7FF}
 
 :root{
@@ -79,10 +77,11 @@ main{overflow-x:clip}
 .kopf{position:fixed;inset:0 0 auto;z-index:50;transition:background-color .3s,box-shadow .3s}
 .kopf.ist-gescrollt{background:rgba(11,11,12,.94);box-shadow:0 1px 0 var(--linie)}
 .kopf__innen{display:flex;align-items:center;gap:28px;height:var(--kopf-h);max-width:var(--max);margin-inline:auto;padding-inline:var(--rand)}
-.logo{display:inline-flex;align-items:center;text-decoration:none;color:var(--text);white-space:nowrap}
-.logo__wort{font-family:"Orbitron",var(--schrift);font-weight:400;font-size:clamp(18px,.6vw + 13px,22px);letter-spacing:.01em;line-height:1;transition:color .3s}
-.logo__bas{color:var(--gold)}
-.logo:hover .logo__wort{color:var(--gold-hell)}
+.logo{display:inline-flex;align-items:center;flex:none;line-height:0;text-decoration:none}
+.logo picture{display:block}
+.logo__bild{display:block;height:40px;width:auto;transition:opacity .3s}
+.logo:hover .logo__bild{opacity:.85}
+@media (min-width:768px){.logo__bild{height:52px}}
 .nav{display:flex;gap:26px;margin-left:auto}
 .nav a{position:relative;font-size:.95rem;color:var(--text-2);text-decoration:none;padding:6px 0;transition:color .2s}
 .nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
