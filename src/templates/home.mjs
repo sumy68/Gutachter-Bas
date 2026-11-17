@@ -1,6 +1,6 @@
 // Startseite (Onepage). Inhalte aus site.config.mjs.
 import {
-  SITE, OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT, FORM,
+  OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT, FORM,
 } from "../site.config.mjs";
 import { esc, head, header, footer, phoneLink, mailLink, addressBlock, hoursText, marker, V } from "./layout.mjs";
 import { homeSchema } from "./schema.mjs";
@@ -24,13 +24,14 @@ function picture({ base, widths, sizes, alt, width, height, lazy = true, cls = "
 const STARS = `<span class="sterne" role="img" aria-label="5 von 5 Sternen">${'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L10 15l-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/></svg>'.repeat(5)}</span>`;
 
 const hero = () => `
-<section class="held" id="start" data-szene="0" data-pos="2.35,-1.1,0.95,1" data-pos-m="0,-2.15,0.46,1">
+<section class="held" id="start" data-szene="0" data-pos="0,-2.4,0.74,1" data-pos-m="0,-2.15,0.46,1">
   <div class="wrap held__innen">
     <h1 class="held__titel">
-      <span class="held__ort">Kfz-Gutachter in Ingolstadt</span>
-      <span class="held__satz">Wir <span class="wechsel" data-breit="dokumentieren"><span class="wechsel__wort" id="wechsel" data-woerter="prüfen,bewerten,dokumentieren,schützen">prüfen</span></span> Ihr&nbsp;Fahrzeug.</span>
+      <span class="held__zeile">Wir</span>
+      <span class="wechsel" data-breit="dokumentieren"><span class="wechsel__wort" id="wechsel" data-woerter="prüfen,bewerten,dokumentieren,schützen">prüfen</span></span>
+      <span class="held__zeile">Ihr&nbsp;Fahrzeug.</span>
     </h1>
-    <p class="held__lead">Unfallgutachten, Bewertungen und Kaufberatung von ${esc(OWNER.name)} – zertifizierter Kfz-Sachverständiger, seit über ${OWNER.yearsExperience}&nbsp;Jahren tätig.</p>
+    <p class="held__lead">${esc(OWNER.name)} ist Ihr zertifizierter <span class="nw">Kfz-Gutachter</span> in Ingolstadt – für Unfallgutachten, Bewertungen und Kaufberatung, seit über ${OWNER.yearsExperience}&nbsp;Jahren.</p>
     <div class="held__aktion">
       <a class="btn" href="#kontakt">Jetzt Gutachter anfragen</a>
       <p class="held__tel">oder anrufen: ${phoneLink()}</p>
@@ -38,7 +39,6 @@ const hero = () => `
   </div>
   <div class="wrap held__fuss">
     <div class="skala" aria-hidden="true"></div>
-    <p class="held__slogan">${esc(SITE.slogan)}</p>
   </div>
 </section>`;
 
@@ -46,8 +46,8 @@ const services = () => `
 <section class="abschnitt leistungen" id="service" data-szene="1" data-pos="-3.5,-2.35,0.66,0.85" data-pos-m="0,-2.75,0.4,0.2" aria-labelledby="leistungen-titel">
   <div class="wrap raster">
     <div class="abschnitt__kopf klebt">
-      <h2 id="leistungen-titel" data-split>Leistungen als Kfz-Sach&shy;verständiger in Ingolstadt</h2>
-      <p class="einleitung" data-reveal>Unabhängig, nachvollziehbar und schnell – für Privatpersonen, Werkstätten und Anwälte.</p>
+      <h2 id="leistungen-titel" data-split>Ihr Kfz-Gutachter in Ingolstadt</h2>
+      <p class="einleitung" data-reveal>Sechs Leistungen rund um Ihr Fahrzeug – unabhängig, nachvollziehbar und schnell, für Privatpersonen, Werkstätten und Anwälte.</p>
     </div>
     <ol class="verzeichnis">
       ${SERVICES.map((s, i) => `<li class="verzeichnis__eintrag" id="${s.slug}" data-reveal>
@@ -84,7 +84,7 @@ const about = () => `
       })}
     </figure>
     <div class="ueber__text">
-      <h2 id="ueber-titel" data-split>Ismayil Bas – Ihr Kfz-Gutachter in Ingolstadt</h2>
+      <h2 id="ueber-titel" data-split>Ismayil Bas – zertifiziert und unabhängig</h2>
       <p data-reveal>Seit über ${OWNER.yearsExperience} Jahren bin ich als zertifizierter Kfz-Gutachter tätig und stehe Privatpersonen, Werkstätten und Anwälten als unabhängiger Ansprechpartner zur Seite.</p>
       <p data-reveal>Ich kenne die Technik verschiedenster Fahrzeugtypen ebenso wie die Abläufe bei Versicherungen und rechtlichen Verfahren – und arbeite mit Präzision, Transparenz und Fairness.</p>
       <dl class="fakten" data-reveal>

@@ -108,26 +108,25 @@ body.menue-offen{overflow:hidden}
   repeating-linear-gradient(90deg,var(--linie) 0 1px,transparent 1px 12px) left bottom/100% 8px no-repeat}
 
 /* ---------- Hero ---------- */
-.held{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding-top:calc(var(--kopf-h) + clamp(28px,7vh,88px))}
-.held__innen{position:relative}
-.held__titel{display:flex;flex-direction:column;gap:clamp(14px,2vh,22px);max-width:13.5ch;font-size:clamp(42px,7.2vw,112px);font-weight:800;letter-spacing:-.04em;line-height:.96}
-.held__ort{font-size:clamp(17px,.9vw + 10px,22px);font-weight:550;letter-spacing:-.005em;line-height:1.2;color:var(--text-2)}
-.held__satz{display:block}
-.wechsel{display:inline-grid;vertical-align:bottom}
+/* Hero: zentrierte, ruhige Textsäule über dem Partikel-Auto. H1 in drei Zeilen – das Wechselwort hat
+   eine eigene, zentrierte Zeile und verschiebt deshalb nichts. */
+.held{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding-top:calc(var(--kopf-h) + clamp(24px,5vh,64px))}
+.held__innen{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center}
+.held__titel{display:flex;flex-direction:column;align-items:center;font-size:clamp(42px,min(4.6vw + 14px,8.6vh),84px);font-weight:800;letter-spacing:-.04em;line-height:.98}
+.held__zeile{display:block}
+.wechsel{display:grid;justify-items:center}
 .wechsel::after{content:attr(data-breit);grid-area:1/1;visibility:hidden;pointer-events:none;height:0;overflow:hidden}
-.wechsel__wort{grid-area:1/1;justify-self:start;background:linear-gradient(180deg,#ECD6A0 0%,#C9A55C 62%,#B08A3E 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.06em;transition:opacity .45s var(--ease),filter .45s var(--ease),transform .45s var(--ease);will-change:opacity,transform}
+.wechsel__wort{grid-area:1/1;justify-self:center;background:linear-gradient(180deg,#ECD6A0 0%,#C9A55C 62%,#B08A3E 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.06em;transition:opacity .45s var(--ease),filter .45s var(--ease),transform .45s var(--ease);will-change:opacity,transform}
 .wechsel__wort.raus{opacity:0;filter:blur(10px);transform:translateY(-.18em)}
 .wechsel__wort.rein{opacity:0;filter:blur(10px);transform:translateY(.18em);transition:none}
-.held__lead{margin-top:clamp(20px,3vh,32px);max-width:36ch;color:var(--text-2);font-size:clamp(17px,.5vw + 14px,21px)}
-.held__aktion{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:clamp(26px,4vh,40px)}
+.held__lead{margin-top:clamp(18px,2.6vh,28px);max-width:42ch;color:var(--text-2);font-size:clamp(17px,.4vw + 14px,20px)}
+.held__aktion{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 28px;margin-top:clamp(22px,3.4vh,34px)}
 .held__tel{color:var(--text-2);font-size:1rem}
-.held__fuss{display:flex;align-items:flex-end;gap:24px;padding-bottom:clamp(20px,4vh,36px)}
-.held__fuss .skala{flex:1}
-.held__slogan{font-size:.92rem;color:var(--text-2);white-space:nowrap;line-height:1}
+.held__fuss{padding-bottom:clamp(20px,4vh,36px)}
 @media (max-width:760px){
   .held{min-height:auto;padding-bottom:0}
   .held__innen{padding-bottom:min(78vw,380px)}
-  .held__slogan{display:none}
+  .held__aktion{flex-direction:column;gap:14px}
 }
 
 /* ---------- Abschnitte allgemein ---------- */
