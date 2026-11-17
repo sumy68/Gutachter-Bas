@@ -224,8 +224,7 @@ export function renderHome() {
     path: "/",
     extraHead: `${homeSchema()}
 <link rel="modulepreload" href="/assets/js/partikel.js?v=${V}">
-<link rel="modulepreload" href="/assets/js/partikel-formen.js">
-<link rel="preload" href="/assets/vendor/three.min.js" as="script" fetchpriority="low">`,
+<link rel="modulepreload" href="/assets/js/partikel-formen.js">`,
   })}
 <body class="startseite">
 ${header({ home: true })}

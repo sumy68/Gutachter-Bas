@@ -5,11 +5,11 @@
    Performance (gleiches Vorgehen wie smyagency):
    - Mit echter GPU: Start direkt nach dem ersten Paint + kurzem Leerlauf-Slot; three.js ist per preload
      (niedrige Priorität) vorgeladen, das Szenen-Modul per modulepreload.
-   - Nur Software-Rendering (Standbild): später, schonender Start nach window.load.
+   - Ohne echte GPU (Software-Rendering): vorgerendertes Standbild, three.js wird nicht geladen.
    - Init in kleinen Häppchen (scheduler.yield, Fallback setTimeout) statt eines langen Tasks.
    - Pixeldichte bis 2 nur mit echter GPU; Partikelanzahl an die Bildschirmfläche gekoppelt.
    - Ohne GPU (Software-Rendering), bei „Bewegung reduzieren" oder sehr schwachen Geräten: Standbild.
-     Ohne WebGL: vorgerendertes Bild (.buehne-standbild).
+     Ohne WebGL oder nur mit Software-Rendering: vorgerendertes Bild (.buehne-standbild).
    - Adaptive Reduktion erst, wenn die Bildrate mehrere Sekunden am Stück unter 40 fps liegt.
    - Pause bei verstecktem Tab. Keine Layout-Abfragen im Loop (ScrollTrigger cached die Positionen). */
 import { zufall, bauAuto, bauScan, bauSiegel, bauBlatt, schadenIndex, istStrahl } from "./partikel-formen.js";
@@ -45,14 +45,6 @@ const imLeerlauf = (fn, timeout = 1500) =>
 const START_LEERLAUF_MS = 150;
 function nachErstemPaint(fn) {
   requestAnimationFrame(() => requestAnimationFrame(() => imLeerlauf(fn, START_LEERLAUF_MS)));
-}
-// Ohne echte GPU (Software-Rendering) gibt es ohnehin nur das Standbild – dort bleibt der schonende,
-// späte Start nach window.load, damit die teure Software-WebGL-Arbeit nicht in die Ladephase fällt.
-const SPAETSTART_MS = 1200;
-function nachDemLaden(fn) {
-  const verzoegert = () => setTimeout(() => imLeerlauf(fn), Math.max(0, SPAETSTART_MS - performance.now()));
-  if (document.readyState === "complete") verzoegert();
-  else addEventListener("load", verzoegert, { once: true });
 }
 
 function threeLaden() {
@@ -104,11 +96,24 @@ function webglPruefen() {
   }
 }
 
+// three.js nur mit echter GPU vorladen (niedrige Priorität, startet schon während des Parsens der Seite)
+function threeVorladen() {
+  const l = document.createElement("link");
+  l.rel = "preload"; l.as = "script"; l.href = THREE_URL; l.fetchPriority = "low";
+  document.head.appendChild(l);
+}
+
 const webgl = canvas ? webglPruefen() : { ok: false };
 if (canvas) {
-  const planen = webgl.software ? nachDemLaden : nachErstemPaint;
   if (!webgl.ok) ohneWebGL("WebGL nicht verfügbar");
-  else planen(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
+  else if (webgl.software) {
+    // Ohne echte GPU: hochwertiges vorgerendertes Standbild, three.js wird gar nicht geladen
+    ohneWebGL("Software-Rendering");
+    performance.mark("partikel-standbild");
+  } else {
+    threeVorladen();
+    nachErstemPaint(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
+  }
 }
 
 async function start() {
