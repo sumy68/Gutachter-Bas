@@ -3,8 +3,8 @@
    data-pos / data-pos-m = "x,y,Größe,Deckkraft" (Desktop / Mobil).
 
    Performance (gleiches Vorgehen wie smyagency):
-   - Mit echter GPU: Start direkt nach dem ersten Paint + kurzem Leerlauf-Slot; three.js ist per preload
-     (niedrige Priorität) vorgeladen, das Szenen-Modul per modulepreload.
+   - Mit echter GPU: Start direkt nach dem ersten Paint + kurzem Leerlauf-Slot; three.js wird schon im <head>
+     (Inline-GPU-Prüfung) mit niedriger Priorität vorgeladen, das Szenen-Modul per modulepreload.
    - Ohne echte GPU (Software-Rendering): vorgerendertes Standbild, three.js wird nicht geladen.
    - Init in kleinen Häppchen (scheduler.yield, Fallback setTimeout) statt eines langen Tasks.
    - Pixeldichte bis 2 nur mit echter GPU; Partikelanzahl an die Bildschirmfläche gekoppelt.
@@ -96,14 +96,8 @@ function webglPruefen() {
   }
 }
 
-// three.js nur mit echter GPU vorladen (niedrige Priorität, startet schon während des Parsens der Seite)
-function threeVorladen() {
-  const l = document.createElement("link");
-  l.rel = "preload"; l.as = "script"; l.href = THREE_URL; l.fetchPriority = "low";
-  document.head.appendChild(l);
-}
-
-const webgl = canvas ? webglPruefen() : { ok: false };
+// Ergebnis der frühen GPU-Prüfung aus dem <head> übernehmen (sonst hier prüfen)
+const webgl = canvas ? (window.__basWebgl || webglPruefen()) : { ok: false };
 if (canvas) {
   if (!webgl.ok) ohneWebGL("WebGL nicht verfügbar");
   else if (webgl.software) {
@@ -111,7 +105,6 @@ if (canvas) {
     ohneWebGL("Software-Rendering");
     performance.mark("partikel-standbild");
   } else {
-    threeVorladen();
     nachErstemPaint(() => threeLaden().then(start).catch((e) => { canvas.style.display = "none"; ohneWebGL("Start fehlgeschlagen", e); }));
   }
 }

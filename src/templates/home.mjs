@@ -224,7 +224,9 @@ export function renderHome() {
     path: "/",
     extraHead: `${homeSchema()}
 <link rel="modulepreload" href="/assets/js/partikel.js?v=${V}">
-<link rel="modulepreload" href="/assets/js/partikel-formen.js">`,
+<link rel="modulepreload" href="/assets/js/partikel-formen.js">
+<script>/* GPU-Prüfung früh im <head>: three.js nur mit echter GPU vorladen (ohne GPU: Standbild, kein Download) */
+(function(){try{if(!("WebGLRenderingContext" in window))return;var c=document.createElement("canvas"),g=c.getContext("webgl");if(!g)return;var e=g.getExtension("WEBGL_debug_renderer_info"),n=String(g.getParameter(e?e.UNMASKED_RENDERER_WEBGL:g.RENDERER)),x=g.getExtension("WEBGL_lose_context");x&&x.loseContext();var s=/swiftshader|llvmpipe|softpipe|software|basic render/i.test(n);window.__basWebgl={ok:true,software:s};if(!s){var l=document.createElement("link");l.rel="preload";l.as="script";l.href="/assets/vendor/three.min.js";l.fetchPriority="low";document.head.appendChild(l)}}catch(_){}})();</script>`,
   })}
 <body class="startseite">
 ${header({ home: true })}
