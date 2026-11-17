@@ -76,10 +76,6 @@ export function renderDatenschutz() {
       <p><strong>Telefon:</strong> ${tel()}</p>`),
 
     block("Kontakt mit uns", `<p>Wenn Sie per Formular auf der Website oder per E-Mail Kontakt mit uns aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen sechs Monate bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>`),
-    `<!-- Hinweis: Sobald ein Formular-Dienst (Auftragsverarbeiter) für den Versand oder Foto-Upload genutzt wird,
-         muss dieser Abschnitt angepasst und der Dienst hier genannt werden. -->`,
-    block("Kontaktformular", `<p>Das Kontaktformular auf dieser Website überträgt keine Daten an unseren Server oder an Dritte und nutzt keinen Formular-Dienst. Beim Absenden öffnet sich lediglich eine vorbereitete E-Mail in Ihrem eigenen E-Mail-Programm. Erst wenn Sie diese E-Mail selbst absenden, erhalten wir Ihre Angaben.</p>
-      <p>Fotos, die Sie im Formular auswählen, werden nicht hochgeladen. Sie können diese bei Bedarf selbst als Anhang zu Ihrer E-Mail hinzufügen. Für die Verarbeitung Ihrer E-Mail gelten die Angaben unter „Kontakt mit uns".</p>`),
     block("Cookies", `<p>Unsere Website setzt keine eigenen Cookies und verwendet keine einwilligungspflichtigen Cookies für Analyse, Tracking oder Marketing.</p>
       <p>Sie können Ihren Browser generell so einstellen, dass er Sie über das Setzen von Cookies informiert und Cookies nur im Einzelfall erlaubt oder grundsätzlich ablehnt. Die Funktionsfähigkeit dieser Website bleibt davon unberührt.</p>`),
     block("Google Maps, Schriftarten und eingebundene Inhalte", `<p>Für die Anfahrt verlinken wir auf Google Maps. Es handelt sich um einen einfachen Link; Google Maps ist nicht in diese Website eingebunden. Erst wenn Sie den Link anklicken, verlassen Sie unsere Website und gelangen zu Google. Dort gelten die Datenschutzbestimmungen von Google.</p>

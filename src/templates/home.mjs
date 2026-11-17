@@ -1,6 +1,6 @@
 // Startseite (Onepage). Inhalte aus site.config.mjs.
 import {
-  OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT, FORM,
+  OWNER, CONTACT, SERVICES, STEPS, CERTIFICATES, REVIEWS, FAQ, FAQ_TODO_COMMENT,
 } from "../site.config.mjs";
 import { esc, head, header, footer, phoneLink, phoneLinkIcon, mailLink, addressLink, hoursLines, V } from "./layout.mjs";
 import { homeSchema } from "./schema.mjs";
@@ -175,45 +175,13 @@ const contact = () => `
     <div class="kontakt__info">
       <h2 id="kontakt-titel" data-split>Gutachter in Ingolstadt anfragen</h2>
       <p class="einleitung" data-reveal>Schildern Sie kurz Ihr Anliegen – ich melde mich zeitnah bei Ihnen.</p>
-      <dl class="kontaktliste" data-reveal>
-        <div><dt>Telefon</dt><dd>${phoneLink()}</dd></div>
-        <div><dt>E-Mail</dt><dd>${mailLink()}</dd></div>
-        <div id="standort"><dt>Adresse</dt><dd>${addressLink()}</dd></div>
-        <div><dt>Erreichbar</dt><dd>${hoursLines()}</dd></div>
-      </dl>
     </div>
-    <form class="formular" id="anfrage" data-endpoint="${esc(FORM.endpoint)}" data-mail="${esc(CONTACT.email)}" data-max-dateien="${FORM.maxFiles}" data-max-mb="${FORM.maxFileMb}" novalidate data-reveal>
-      <div class="feld">
-        <label for="f-name">Name</label>
-        <input id="f-name" name="name" type="text" autocomplete="name" required>
-      </div>
-      <div class="feld-paar">
-        <div class="feld">
-          <label for="f-tel">Telefon</label>
-          <input id="f-tel" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required>
-        </div>
-        <div class="feld">
-          <label for="f-mail">E-Mail <span class="optional">(optional)</span></label>
-          <input id="f-mail" name="email" type="email" autocomplete="email">
-        </div>
-      </div>
-      <div class="feld">
-        <label for="f-anliegen">Ihr Anliegen</label>
-        <textarea id="f-anliegen" name="anliegen" rows="4" required></textarea>
-      </div>
-      <div class="feld feld--datei">
-        <label class="datei" for="f-fotos">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-2.5h6L17 7h3v12H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
-          <span>Fotos vom Schaden hinzufügen <span class="optional">(optional, bis ${FORM.maxFiles} Bilder)</span></span>
-        </label>
-        <input id="f-fotos" name="fotos" type="file" accept="image/*" multiple class="nur-sr">
-        <ul class="datei__liste" aria-live="polite"></ul>
-      </div>
-      <div class="honig" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <p class="formular__hinweis">Ihre Angaben werden nur zur Bearbeitung der Anfrage verwendet. Mehr in der <a class="textlink" href="/datenschutz">Datenschutzerklärung</a>.</p>
-      <button class="btn" type="submit">Anfrage senden</button>
-      <p class="formular__status" role="status" aria-live="polite"></p>
-    </form>
+    <dl class="kontaktliste" data-reveal>
+      <div><dt>Telefon</dt><dd>${phoneLink()}</dd></div>
+      <div><dt>E-Mail</dt><dd>${mailLink()}</dd></div>
+      <div id="standort"><dt>Adresse</dt><dd>${addressLink()}</dd></div>
+      <div><dt>Erreichbar</dt><dd>${hoursLines()}</dd></div>
+    </dl>
   </div>
 </section>`;
 

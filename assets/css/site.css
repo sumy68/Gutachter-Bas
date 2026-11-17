@@ -147,7 +147,7 @@ a.tel-link:hover .tel-link__icon{stroke:var(--gold-hell)}
   .klebt{position:static}
 }
 /* Lesbarkeit über den Partikeln: dezenter dunkler Verlauf hinter Textblöcken */
-.verzeichnis,.faq__liste,.formular,.ueber__text,.stimmen .slider,.schritte{position:relative}
+.verzeichnis,.faq__liste,.ueber__text,.stimmen .slider,.schritte{position:relative}
 .verzeichnis::after,.faq__liste::after,.ueber__text::after,.stimmen .slider::after,.schritte::after{content:"";position:absolute;inset:-6% -8%;z-index:-1;background:radial-gradient(closest-side,rgba(11,11,12,.82),rgba(11,11,12,.55) 60%,transparent);pointer-events:none}
 @media (max-width:900px){.verzeichnis::after,.faq__liste::after,.ueber__text::after,.stimmen .slider::after,.schritte::after{inset:-4% 0}}
 
@@ -300,42 +300,17 @@ a.tel-link:hover .tel-link__icon{stroke:var(--gold-hell)}
 /* ---------- Kontakt ---------- */
 .kontakt__raster{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2.4vw,32px);align-items:start}
 .kontakt__info{grid-column:1/span 5}
-.kontaktliste{margin:40px 0 0;display:grid;gap:0}
+.kontaktliste{grid-column:7/span 6;margin:0;display:grid;gap:0}
 .kontaktliste div{display:grid;grid-template-columns:7.5em 1fr;align-items:baseline;gap:12px;padding:18px 0;border-top:1px solid var(--linie)}
 .kontaktliste div:last-child{border-bottom:1px solid var(--linie)}
 .kontaktliste dt{color:var(--text-2);font-size:.92rem;line-height:1.6}
 .kontaktliste dd{margin:0;font-size:1rem;line-height:1.6}
-.formular{grid-column:7/span 6;background:var(--flaeche);border:1px solid var(--linie-stark);padding:clamp(28px,3.8vw,56px);display:grid;gap:26px}
-.feld{display:flex;flex-direction:column;gap:8px}
-.feld-paar{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.feld label{font-size:.9rem;font-weight:500;color:var(--text-2);letter-spacing:.005em}
-.optional{color:#8E897F;font-weight:400}
-.feld input,.feld textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(243,239,230,.28);border-radius:0;padding:10px 0;color:var(--text);font:inherit;font-size:1rem;transition:border-color .2s}
-.feld textarea{resize:vertical;min-height:110px}
-.feld input:focus,.feld textarea:focus{outline:none;border-bottom-color:var(--gold)}
-.feld input:focus-visible,.feld textarea:focus-visible{box-shadow:0 1px 0 0 var(--gold)}
-.feld [aria-invalid="true"]{border-bottom-color:#E08A73}
-.feld__fehler{color:#F0A08C;font-size:.86rem}
-.datei{display:flex!important;align-items:center;gap:14px;padding:16px 18px;font-size:.95rem;border:1px dashed var(--linie-stark);color:var(--text)!important;cursor:pointer;transition:border-color .2s,background-color .2s}
-.datei:hover{border-color:var(--gold);background:rgba(201,165,92,.06)}
-.datei svg{flex:none;width:24px;height:24px;fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linejoin:round}
-.feld--datei:focus-within .datei{outline:2px solid var(--gold-hell);outline-offset:3px}
-.feld--datei{position:relative}
-.datei__liste{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:.88rem;color:var(--text-2)}
-.honig{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.formular__hinweis{font-size:.86rem;color:var(--text-2)}
-.formular .btn{justify-self:start}
-.formular__status{font-size:.95rem;min-height:1.5em}
-.formular__status.ok{color:var(--gold-hell)}
-.formular__status.fehler{color:#F0A08C}
 @media (max-width:900px){
   .kontakt__raster{display:block}
-  .formular{margin-top:48px}
+  .kontaktliste{margin-top:40px}
 }
 @media (max-width:520px){
-  .feld-paar{grid-template-columns:1fr}
   .kontaktliste div{grid-template-columns:1fr;gap:4px}
-  .formular .btn{justify-self:stretch}
 }
 
 /* ---------- Footer ---------- */

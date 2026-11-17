@@ -44,17 +44,6 @@ export const HOURS = {
 export const AREA = ["Ingolstadt"];
 export const AUDIENCES = ["Privatpersonen", "Werkstätten", "Anwälte"];
 
-// Formular: GitHub Pages hat kein Backend. Solange kein Endpoint gesetzt ist,
-// öffnet das Formular eine vorbereitete E-Mail an CONTACT.email (Fotos werden
-// dann im E-Mail-Programm angehängt).
-// TODO: Formular-Dienst (z. B. Formspree/Web3Forms, möglichst EU-Hosting) einrichten,
-//       Endpoint hier eintragen und in der Datenschutzerklärung ergänzen.
-export const FORM = {
-  endpoint: "",
-  maxFiles: 6,
-  maxFileMb: 8,
-};
-
 export const SERVICES = [
   {
     slug: "schadengutachten",
