@@ -6,23 +6,33 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderHome } from "../src/templates/home.mjs";
 import { renderImpressum, renderDatenschutz } from "../src/templates/legal.mjs";
-import { SITE, OWNER, CONTACT, HOURS, SERVICES, FAQ, AREA, AUDIENCES } from "../src/site.config.mjs";
+import { SITE, OWNER, CONTACT, HOURS, SERVICES, FAQ, AREA, AUDIENCES, CERTIFICATES } from "../src/site.config.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
+// Bild-Sitemap: Porträt und Zertifikate auf der Startseite
+const SITEMAP_BILDER = [
+  "kfz-gutachter-ingolstadt-ismayil-bas-1086.jpg",
+  ...CERTIFICATES.map((c) => `${c.file}.jpg`),
+];
+
 const sitemap = () => {
   const urls = [
-    ["/", "monthly", "1.0"],
-    ["/impressum", "yearly", "0.3"],
-    ["/datenschutz", "yearly", "0.3"],
+    ["/", "monthly", "1.0", SITEMAP_BILDER],
+    ["/impressum", "yearly", "0.3", []],
+    ["/datenschutz", "yearly", "0.3", []],
   ];
+  const bilder = (liste) => liste.map((b) => `
+    <image:image>
+      <image:loc>${SITE.url}/assets/img/${b}</image:loc>
+    </image:image>`).join("");
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(([p, f, pr]) => `  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${urls.map(([p, f, pr, b]) => `  <url>
     <loc>${SITE.url}${p}</loc>
     <lastmod>${SITE.lastmod}</lastmod>
     <changefreq>${f}</changefreq>
-    <priority>${pr}</priority>
+    <priority>${pr}</priority>${bilder(b)}
   </url>`).join("\n")}
 </urlset>
 `;

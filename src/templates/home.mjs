@@ -6,7 +6,7 @@ import { esc, head, header, footer, phoneLink, mailLink, addressBlock, hoursText
 import { homeSchema } from "./schema.mjs";
 
 const IMG = "/assets/img";
-const PORTRAIT = "ismayil-bas-kfz-gutachter-ingolstadt";
+const PORTRAIT = "kfz-gutachter-ingolstadt-ismayil-bas";
 const pad = (n) => String(n).padStart(2, "0");
 
 function picture({ base, widths, sizes, alt, width, height, lazy = true, cls = "" }) {
@@ -79,7 +79,7 @@ const about = () => `
     <figure class="ueber__bild" data-reveal>
       ${picture({
         base: PORTRAIT, widths: [480, 760, 1086], sizes: "(min-width: 1000px) 40vw, 92vw",
-        alt: "Ismayil Bas, zertifizierter Kfz-Gutachter in Ingolstadt, mit Klemmbrett vor einem Unfallfahrzeug",
+        alt: "Kfz-Gutachter Ismayil Bas in Ingolstadt mit Klemmbrett vor einem Unfallfahrzeug",
         width: 1086, height: 1448,
       })}
     </figure>
@@ -107,7 +107,7 @@ const certificates = () => `
       ${CERTIFICATES.map((c, i) => `<li class="zert" style="--i:${i}">
         <figure>
           <button class="zert__knopf" type="button" data-zert="${i}" aria-haspopup="dialog" aria-label="${esc(`${c.title} vergrößern`)}">
-            ${picture({ base: c.file, alt: `${c.title}: ${c.detail} – Kfz-Gutachter Ingolstadt`, width: c.width, height: c.height, cls: "zert__bild" })}
+            ${picture({ base: c.file, alt: c.alt, width: c.width, height: c.height, cls: "zert__bild" })}
           </button>
           <figcaption><span class="zert__titel">${esc(c.title)}</span><span class="zert__detail">${esc(c.detail)}</span></figcaption>
         </figure>
@@ -126,7 +126,7 @@ const certificates = () => `
     </div>
   </dialog>
   <script type="application/json" id="zert-daten">${JSON.stringify(
-    CERTIFICATES.map((c) => ({ src: `${IMG}/${c.file}.webp`, w: c.width, h: c.height, title: c.title, detail: c.detail })),
+    CERTIFICATES.map((c) => ({ src: `${IMG}/${c.file}.webp`, w: c.width, h: c.height, title: c.title, detail: c.detail, alt: c.alt })),
   ).replace(/</g, "\\u003c")}</script>
 </section>`;
 

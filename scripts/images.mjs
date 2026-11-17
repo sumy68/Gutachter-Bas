@@ -10,13 +10,17 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SRC = join(root, "src/images");
 const OUT = join(root, "assets/img");
 
+// Dateinamen SEO-sprechend: Keyword + Ort/Inhalt, Kleinbuchstaben, Bindestriche, keine Umlaute.
+// Quelle und erzeugte Varianten tragen denselben Namen.
+const PORTRAIT = "kfz-gutachter-ingolstadt-ismayil-bas";
 const JOBS = [
-  { src: "foto.jpg", name: "ismayil-bas-kfz-gutachter-ingolstadt", widths: [480, 760, 1086] },
-  { src: "zertifikat-1.jpg", name: "zertifikat-desag-logo", widths: [null] },
-  { src: "zertifikat-2.jpg", name: "zertifikat-desag-urkunde-kfz-sachverstaendiger", widths: [null] },
-  { src: "zertifikat-3.jpg", name: "zertifikat-desag-zert-iso-9001", widths: [null] },
-  { src: "zertifikat-4.jpg", name: "zertifikat-berufsfachverband-urkunde", widths: [null] },
+  { name: PORTRAIT, widths: [480, 760, 1086] },
+  { name: "kfz-sachverstaendiger-zertifikat-desag", widths: [null] },
+  { name: "kfz-sachverstaendiger-urkunde-berufsfachverband", widths: [null] },
+  { name: "kfz-gutachter-zertifikat-iso-9001", widths: [null] },
+  { name: "kfz-sachverstaendiger-desag-logo", widths: [null] },
 ];
+const OG_BILD = "gutachter-bas-kfz-gutachter-ingolstadt.jpg";
 
 async function encode(input, base, width) {
   const pipeline = () => {
@@ -33,21 +37,21 @@ async function encode(input, base, width) {
 async function run() {
   await mkdir(OUT, { recursive: true });
   for (const job of JOBS) {
-    const input = join(SRC, job.src);
+    const input = join(SRC, `${job.name}.jpg`);
     const meta = await sharp(input).metadata();
     for (const w of job.widths) {
       const width = w ?? meta.width;
       const base = join(OUT, w ? `${job.name}-${width}` : job.name);
       await encode(input, base, w);
-      console.log(`${job.src} → ${base.replace(root, "")} (${width}px)`);
+      console.log(`${job.name}.jpg → ${base.replace(root, "")} (${width}px)`);
     }
   }
 
   // Open-Graph-Bild 1200×630 (Ausschnitt aus dem Porträt, Fokus oben).
-  await sharp(join(SRC, "foto.jpg"))
+  await sharp(join(SRC, `${PORTRAIT}.jpg`))
     .resize({ width: 1200, height: 630, fit: "cover", position: "top" })
     .jpeg({ quality: 82, mozjpeg: true })
-    .toFile(join(OUT, "og-gutachter-bas-ingolstadt.jpg"));
+    .toFile(join(OUT, OG_BILD));
   console.log("Open-Graph-Bild erstellt");
 }
 

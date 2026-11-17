@@ -70,19 +70,20 @@ export function renderImpressum() {
 
 export function renderDatenschutz() {
   const body = [
-    block("", `<p>Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TMG). In diesen Datenschutzinformationen informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Website.</p>`),
+    block("", `<p>Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TDDDG, DDG). In diesen Datenschutzinformationen informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Website.</p>`),
     block("Verantwortliche Stelle", `<p><strong>${esc(OWNER.name)}</strong></p><p>${adresse()}</p>
       <p><strong>E-Mail:</strong> ${mail()}</p>
       <p><strong>Telefon:</strong> ${tel()}</p>`),
-    `<!-- TODO: Datenschutz prüfen – Kontaktformular hat jetzt einen optionalen Datei-Upload (Fotos vom Schaden).
-         Solange kein Formular-Dienst eingerichtet ist, öffnet das Formular nur eine E-Mail im eigenen E-Mail-Programm.
-         Sobald ein Formular-Dienstleister (Auftragsverarbeiter) genutzt wird, muss er hier genannt werden. -->`,
+
     block("Kontakt mit uns", `<p>Wenn Sie per Formular auf der Website oder per E-Mail Kontakt mit uns aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen sechs Monate bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>`),
+    `<!-- Hinweis: Sobald ein Formular-Dienst (Auftragsverarbeiter) für den Versand oder Foto-Upload genutzt wird,
+         muss dieser Abschnitt angepasst und der Dienst hier genannt werden. -->`,
+    block("Kontaktformular", `<p>Das Kontaktformular auf dieser Website überträgt keine Daten an unseren Server oder an Dritte und nutzt keinen Formular-Dienst. Beim Absenden öffnet sich lediglich eine vorbereitete E-Mail in Ihrem eigenen E-Mail-Programm. Erst wenn Sie diese E-Mail selbst absenden, erhalten wir Ihre Angaben.</p>
+      <p>Fotos, die Sie im Formular auswählen, werden nicht hochgeladen. Sie können diese bei Bedarf selbst als Anhang zu Ihrer E-Mail hinzufügen. Für die Verarbeitung Ihrer E-Mail gelten die Angaben unter „Kontakt mit uns".</p>`),
     block("Cookies", `<p>Unsere Website setzt keine eigenen Cookies und verwendet keine einwilligungspflichtigen Cookies für Analyse, Tracking oder Marketing.</p>
       <p>Sie können Ihren Browser generell so einstellen, dass er Sie über das Setzen von Cookies informiert und Cookies nur im Einzelfall erlaubt oder grundsätzlich ablehnt. Die Funktionsfähigkeit dieser Website bleibt davon unberührt.</p>`),
-    `<!-- TODO: Datenschutz prüfen – Google Maps ist nicht mehr eingebettet, sondern nur noch als externer Link
-         („In Google Maps öffnen") vorhanden. Das frühere Dropbox-Video und Google Fonts wurden entfernt;
-         Schriften und Skripte werden jetzt lokal vom eigenen Server ausgeliefert. -->`,
+    block("Google Maps, Schriftarten und eingebundene Inhalte", `<p>Für die Anfahrt verlinken wir auf Google Maps. Es handelt sich um einen einfachen Link; Google Maps ist nicht in diese Website eingebunden. Erst wenn Sie den Link anklicken, verlassen Sie unsere Website und gelangen zu Google. Dort gelten die Datenschutzbestimmungen von Google.</p>
+      <p>Diese Website bindet keine Inhalte von Drittanbietern ein, etwa Videos, Karten oder Schriftarten externer Dienste. Schriftarten und Skripte werden selbst gehostet und zusammen mit der Website vom Hosting-Anbieter ausgeliefert; dabei werden keine Daten an weitere Anbieter übermittelt.</p>`),
     block("Hosting und Server-Logfiles", `<p>Diese Website wird bei GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. Beim Aufruf der Seite werden durch den Hosting-Anbieter automatisch Informationen in sogenannten Server-Logfiles erfasst, die Ihr Browser übermittelt (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite).</p>
       <p>Diese Daten dienen ausschließlich der technischen Bereitstellung und Sicherheit der Website und werden nicht mit anderen Datenquellen zusammengeführt. Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und stabilen Darstellung der Website (Art. 6 Abs. 1 lit. f DSGVO).</p>
       <p>Diese Website nutzt keine Analyse- oder Tracking-Dienste (z. B. Google Analytics) und setzt keine Marketing- oder Statistik-Cookies.</p>`),
@@ -101,7 +102,7 @@ export function renderDatenschutz() {
       <p>Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von "http://" auf "https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</p>`),
     block("Auskunft, Löschung, Sperrung", `<p>Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung sowie ein Recht auf Berichtigung, Sperrung oder Löschung dieser Daten.</p>
       <p>Hierzu sowie zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit unter der im Impressum angegebenen Adresse an uns wenden.</p>`),
-    `<p class="recht__stand">Stand: Februar 2026</p>`,
+    `<p class="recht__stand">Stand: November 2026</p>`,
   ].join("\n    ");
 
   return page({

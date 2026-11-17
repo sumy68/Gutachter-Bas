@@ -102,27 +102,31 @@ export const STEPS = [
 // Unfallschadenanalyse" passten nicht zu den Bildinhalten.)
 export const CERTIFICATES = [
   {
-    file: "zertifikat-desag-urkunde-kfz-sachverstaendiger",
+    file: "kfz-sachverstaendiger-zertifikat-desag",
     width: 346, height: 494,
     title: "Urkunde der DESAG",
+    alt: "Urkunde der DESAG: Ismayil Bas als Sachverständiger für Schäden an Kraftfahrzeugen und Wertermittlung",
     detail: "Sachverständiger für Schäden an Kraftfahrzeugen und Wertermittlung",
   },
   {
-    file: "zertifikat-berufsfachverband-urkunde",
+    file: "kfz-sachverstaendiger-urkunde-berufsfachverband",
     width: 400, height: 282,
+    alt: "Urkunde des Berufsfachverbands: Ismayil Bas als Sachverständiger für Schäden an Kraftfahrzeugen und Wertermittlung",
     // TODO: Genauen Verbandsnamen am Original prüfen (Bildquelle sehr klein).
     title: "Urkunde des Berufsfachverbands",
     detail: "Sachverständiger für Schäden an Kraftfahrzeugen und Wertermittlung",
   },
   {
-    file: "zertifikat-desag-zert-iso-9001",
+    file: "kfz-gutachter-zertifikat-iso-9001",
     width: 257, height: 252,
+    alt: "Siegel DESAG Zert: zertifiziert nach DIN EN ISO 9001:2008",
     title: "Siegel DESAG Zert",
     detail: "Zertifiziert nach DIN EN ISO 9001:2008",
   },
   {
-    file: "zertifikat-desag-logo",
+    file: "kfz-sachverstaendiger-desag-logo",
     width: 664, height: 318,
+    alt: "Logo der DESAG – Deutsche Sachverständigen Gesellschaft",
     title: "DESAG",
     detail: "Deutsche Sachverständigen Gesellschaft",
   },

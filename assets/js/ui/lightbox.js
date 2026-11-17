@@ -20,7 +20,7 @@ export function initLightbox(getLenis = () => null) {
     const z = liste[aktiv];
     bild.src = z.src;
     bild.width = z.w; bild.height = z.h;
-    bild.alt = `${z.title}: ${z.detail} – Kfz-Gutachter Ingolstadt`;
+    bild.alt = z.alt;
     bild.style.setProperty("--bw", `${Math.round(z.w * MAX_SKALIERUNG)}px`);
     titel.textContent = z.title;
     detail.textContent = z.detail;

@@ -42,7 +42,7 @@ const FONT = "/assets/fonts/schibsted-grotesk-latin.woff2";
 
 export function head({ title, description, path, ogImage, extraHead = "", preloadImage = "" }) {
   const canonical = `${SITE.url}${path}`;
-  const og = ogImage || `${SITE.url}/assets/img/og-gutachter-bas-ingolstadt.jpg`;
+  const og = ogImage || `${SITE.url}/assets/img/gutachter-bas-kfz-gutachter-ingolstadt.jpg`;
   return `<!doctype html>
 <html lang="de">
 <head>
@@ -67,7 +67,7 @@ export function head({ title, description, path, ogImage, extraHead = "", preloa
 <meta property="og:image" content="${og}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Ismayil Bas – Kfz-Gutachter in Ingolstadt">
+<meta property="og:image:alt" content="Kfz-Gutachter Ismayil Bas in Ingolstadt">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="${FONT}" as="font" type="font/woff2" crossorigin>
@@ -148,7 +148,6 @@ export function footer({ home = true } = {}) {
       <nav class="fuss__recht" aria-label="Rechtliches">
         <a href="/impressum">Impressum</a>
         <a href="/datenschutz">Datenschutz</a>
-        <a class="fuss__smy" href="https://smyagency.de" rel="noopener">Website by SMY Agency</a>
       </nav>
     </div>
   </div>

@@ -57,7 +57,7 @@ a.kontaktwert:hover{color:var(--gold-hell)}
 .buehne{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;opacity:0;transition:opacity 1.4s ease}
 .partikel-bereit .buehne{opacity:1}
 .partikel-statisch .buehne{transition:none}
-.buehne-standbild{display:none;position:fixed;inset:0;z-index:0;pointer-events:none;background:url(/assets/img/partikel-auto-standbild.webp) no-repeat right 1vw bottom 10vh/min(1000px,62vw) auto;opacity:.95}
+.buehne-standbild{display:none;position:fixed;inset:0;z-index:0;pointer-events:none;background:url(/assets/img/kfz-gutachter-ingolstadt-partikel-auto.webp) no-repeat right 1vw bottom 10vh/min(1000px,62vw) auto;opacity:.95}
 @media (max-width:760px),(orientation:portrait){.buehne-standbild{background-position:center bottom 6vh;background-size:94vw auto}}
 .ohne-webgl .buehne{display:none}
 .ohne-webgl .buehne-standbild{display:block}
@@ -356,7 +356,6 @@ body.menue-offen{overflow:hidden}
 .fuss__recht{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
 .fuss__recht a{color:var(--text-2);text-decoration:none;transition:color .2s}
 .fuss__recht a:hover{color:var(--text)}
-.fuss__recht .fuss__smy{color:#8E897F}
 @media (max-width:980px){
   .fuss__cta{grid-template-columns:1fr;align-items:start}
   .fuss__raster{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:48px}
@@ -364,7 +363,7 @@ body.menue-offen{overflow:hidden}
 @media (max-width:560px){
   .fuss__raster{grid-template-columns:1fr;row-gap:44px}
   .fuss__aktion{flex-direction:column;align-items:flex-start}
-  .fuss__unten{flex-direction:column;align-items:flex-start}
+  .fuss__unten{flex-direction:column;align-items:flex-start;gap:14px}
 }
 
 /* ---------- Rechtliche Unterseiten ---------- */
