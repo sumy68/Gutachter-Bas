@@ -87,17 +87,32 @@ main{overflow-x:clip}
 .nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
 .nav a:hover{color:var(--text)}
 .nav a:hover::after{transform:scaleX(1)}
-.burger{display:none;margin-left:auto;width:44px;height:44px;border:0;background:none;cursor:pointer;position:relative}
-.burger span{position:absolute;left:11px;right:11px;height:1.5px;background:var(--text);transition:transform .3s var(--ease)}
-.burger span:first-child{top:17px}
-.burger span:last-child{top:26px}
-.burger[aria-expanded="true"] span:first-child{transform:translateY(4.5px) rotate(45deg)}
-.burger[aria-expanded="true"] span:last-child{transform:translateY(-4.5px) rotate(-45deg)}
-.menue{position:fixed;inset:var(--kopf-h) 0 0;background:var(--schwarz);padding:24px var(--rand) 40px;overflow:auto}
-.menue nav{display:flex;flex-direction:column}
-.menue nav a{font-size:1.6rem;font-weight:650;letter-spacing:-.02em;padding:14px 0;border-bottom:1px solid var(--linie);text-decoration:none}
-.menue__tel{margin-top:28px}
-body.menue-offen{overflow:hidden}
+/* Burger: zwei feine Linien (oben 22 px, unten 14 px, rechtsbündig), morpht in 300 ms zum X */
+.burger{display:none;margin-left:auto;margin-right:-11px;width:44px;height:44px;padding:0;border:0;background:none;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent}
+.burger span{position:absolute;right:11px;width:22px;height:1.5px;border-radius:1px;background:var(--text);transform-origin:center;transition:transform .3s var(--ease)}
+.burger span:first-child{top:17px;transform:translate(0,0) rotate(0) scaleX(1)}
+.burger span:last-child{top:25.5px;transform:translate(4px,0) rotate(0) scaleX(.6364)}
+.burger[aria-expanded="true"] span:first-child{transform:translate(0,4.25px) rotate(45deg) scaleX(1)}
+.burger[aria-expanded="true"] span:last-child{transform:translate(0,-4.25px) rotate(-45deg) scaleX(1)}
+/* Mobiles Menü: Fullscreen-Overlay unter dem sichtbaren Header, gestaffelte Einblendung */
+.menue{position:fixed;inset:var(--kopf-h) 0 0;display:flex;flex-direction:column;justify-content:space-between;gap:36px;padding:clamp(20px,4vh,40px) var(--rand) calc(28px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;background:rgba(11,11,12,.94);-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1);opacity:0;transition:opacity .3s var(--ease)}
+.menue.ist-offen{opacity:1}
+/* Weichzeichner des Headers auf einem Pseudo-Element: backdrop-filter direkt auf .kopf würde ihn zum
+   Bezugsrahmen des fixierten Overlays machen (Overlay wäre dann nur so hoch wie der Header) */
+.kopf.menue-aktiv{box-shadow:0 1px 0 var(--linie)}
+.kopf.menue-aktiv::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(11,11,12,.94);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.menue__liste{list-style:none;margin:0;padding:0}
+.menue__liste a{display:flex;align-items:baseline;gap:16px;padding:9px 0;font-size:clamp(32px,9vw,36px);font-weight:650;letter-spacing:-.03em;line-height:1.1;color:var(--text);text-decoration:none;transition:color .2s}
+.menue__nr{flex:none;min-width:1.7em;font-size:12px;font-weight:500;letter-spacing:.06em;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.menue__liste a:hover,.menue__liste a:focus-visible,.menue__liste a[aria-current="true"]{color:var(--gold-hell)}
+.menue__liste li,.menue__fuss{opacity:0;transform:translateY(18px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:0s}
+.menue.ist-offen .menue__liste li,.menue.ist-offen .menue__fuss{opacity:1;transform:none;transition-delay:calc(var(--i) * 60ms + 60ms)}
+.menue__fuss{display:grid;gap:4px;padding-top:22px;border-top:1px solid var(--linie)}
+.menue__fuss .tel-link{min-height:44px}
+.menue__btn{width:100%;margin-top:14px}
+html.menue-offen,body.menue-offen{overflow:hidden}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.menue,.kopf.menue-aktiv::before{background:rgba(11,11,12,.98)}}
+@media (min-width:981px){.menue{display:none!important}}
 @media (max-width:980px){
   .nav,.kopf__cta{display:none}
   .burger{display:block}

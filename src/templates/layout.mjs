@@ -29,6 +29,10 @@ export const phoneLink = (cls = "") =>
 const TELEFON_ICON = `<svg class="tel-link__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.7 3.5h2.6l1.3 3.8-1.9 1.3a10.6 10.6 0 0 0 5.7 5.7l1.3-1.9 3.8 1.3v2.6a1.9 1.9 0 0 1-2.1 1.9A16 16 0 0 1 4.8 5.6a1.9 1.9 0 0 1 1.9-2.1z"/></svg>`;
 export const phoneLinkIcon = (cls = "") =>
   `<a class="kontaktwert tel-link ${cls}" href="${CONTACT.phoneHref}">${TELEFON_ICON}<span>${esc(CONTACT.phoneDisplay)}</span></a>`;
+// E-Mail als Link mit Briefumschlag-Icon (mobiles Menü), gestaltet wie die Telefonnummer
+const MAIL_ICON = `<svg class="tel-link__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 6.5l8 6.2 8-6.2"/></svg>`;
+export const mailLinkIcon = (cls = "") =>
+  `<a class="kontaktwert tel-link ${cls}" href="mailto:${CONTACT.email}">${MAIL_ICON}<span>${esc(CONTACT.email)}</span></a>`;
 export const mailLink = (cls = "") =>
   `<a class="kontaktwert ${cls}" href="mailto:${CONTACT.email}">${esc(CONTACT.email)}</a>`;
 // Adresse = Maps-Link, gestaltet exakt wie Telefon und E-Mail (Klasse kontaktwert)
@@ -98,6 +102,9 @@ const NAV = [
 export function header({ home = true } = {}) {
   const href = (h) => (home ? h : `/${h}`);
   const links = NAV.map(([h, l]) => `<a href="${href(h)}">${l}</a>`).join("");
+  // Mobiles Menü: nummerierte Punkte (01, 02 …), Reihenfolge wie bisher + Kontakt
+  const menuePunkte = [...NAV, ["#kontakt", "Kontakt"]].map(([h, l], i) =>
+    `<li style="--i:${i}"><a href="${href(h)}"><span class="menue__nr" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span><span>${l}</span></a></li>`).join("");
   return `<a class="skip" href="#main">Zum Inhalt springen</a>
 <header class="kopf" id="kopf">
   <div class="kopf__innen">
@@ -107,8 +114,12 @@ export function header({ home = true } = {}) {
     <button class="burger" type="button" aria-expanded="false" aria-controls="menue" aria-label="Menü öffnen"><span></span><span></span></button>
   </div>
   <div class="menue" id="menue" hidden>
-    <nav aria-label="Mobile Navigation">${links}<a href="${href("#kontakt")}">Kontakt</a></nav>
-    <p class="menue__tel">${phoneLink()}</p>
+    <nav aria-label="Mobile Navigation"><ol class="menue__liste">${menuePunkte}</ol></nav>
+    <div class="menue__fuss" style="--i:6">
+      ${phoneLinkIcon()}
+      ${mailLinkIcon()}
+      <a class="btn menue__btn" href="${href("#kontakt")}">Jetzt Kontakt aufnehmen</a>
+    </div>
   </div>
 </header>`;
 }

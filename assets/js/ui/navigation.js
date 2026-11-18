@@ -13,27 +13,50 @@ export function initNavigation(getLenis = () => null) {
   pruefen();
 
   const hintergrund = () => document.querySelectorAll("main, footer");
+  const ruhig = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const offen = () => burger?.getAttribute("aria-expanded") === "true";
+  let schliessUhr = 0;
+
   const schliessen = (fokusZurueck = false) => {
-    if (!burger || burger.getAttribute("aria-expanded") !== "true") return;
+    if (!burger || !offen()) return;
     hintergrund().forEach((el) => el.removeAttribute("inert"));
     burger.setAttribute("aria-expanded", "false");
     burger.setAttribute("aria-label", "Menü öffnen");
-    menue.hidden = true;
+    menue.classList.remove("ist-offen");
+    kopf.classList.remove("menue-aktiv");
+    document.documentElement.classList.remove("menue-offen");
     document.body.classList.remove("menue-offen");
+    clearTimeout(schliessUhr);
+    schliessUhr = setTimeout(() => { if (!offen()) menue.hidden = true; }, ruhig() ? 0 : 320);
     getLenis()?.start();
     if (fokusZurueck) burger.focus();
   };
   const oeffnen = () => {
+    clearTimeout(schliessUhr);
     hintergrund().forEach((el) => el.setAttribute("inert", ""));
     burger.setAttribute("aria-expanded", "true");
     burger.setAttribute("aria-label", "Menü schließen");
     menue.hidden = false;
+    kopf.classList.add("menue-aktiv");
+    document.documentElement.classList.add("menue-offen");
     document.body.classList.add("menue-offen");
     getLenis()?.stop();
-    menue.querySelector("a")?.focus();
+    // Erst nach dem Einblenden der Ebene die Klasse setzen, damit die Übergänge starten
+    requestAnimationFrame(() => requestAnimationFrame(() => menue.classList.add("ist-offen")));
+    menue.querySelector("a")?.focus({ preventScroll: true });
   };
-  burger?.addEventListener("click", () => (burger.getAttribute("aria-expanded") === "true" ? schliessen(true) : oeffnen()));
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") schliessen(true); });
+  burger?.addEventListener("click", () => (offen() ? schliessen(true) : oeffnen()));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && offen()) { schliessen(true); return; }
+    // Fokus-Falle: Tab bleibt zwischen Burger (X) und den Menü-Elementen
+    if (e.key === "Tab" && offen()) {
+      const ziele = [burger, ...menue.querySelectorAll("a[href], button")];
+      const i = ziele.indexOf(document.activeElement);
+      const naechstes = e.shiftKey ? (i <= 0 ? ziele.length - 1 : i - 1) : (i === -1 || i === ziele.length - 1 ? 0 : i + 1);
+      e.preventDefault();
+      ziele[naechstes].focus();
+    }
+  });
   matchMedia("(min-width: 981px)").addEventListener("change", (e) => { if (e.matches) schliessen(); });
 
   // Anker innerhalb der Seite
