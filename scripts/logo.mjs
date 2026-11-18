@@ -1,4 +1,4 @@
-// Leitet aus dem ORIGINAL-Logo von Gutachter BAS (assets/img/kfz-gutachter-ingolstadt-ismayil-bas-logo.png,
+// Leitet aus dem ORIGINAL-Logo von Gutachter BAS (src/images/kfz-gutachter-ingolstadt-ismayil-bas-logo.png,
 // gold auf schwarzem Grund – wird NICHT verändert) alle Logo-Varianten ab:
 //  - Header-Logo: Rand weggetrimmt, ca. 4 % Luft, gegen Schwarz freigestellt (transparent, ohne Säume) → PNG + WebP
 //  - Favicon (48 px) und Apple-Touch-Icon (180 px) aus dem Kreis-Emblem
@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const IMG = join(root, "assets/img");
-const QUELLE = join(IMG, "kfz-gutachter-ingolstadt-ismayil-bas-logo.png");
+const QUELLE = join(root, "src/images/kfz-gutachter-ingolstadt-ismayil-bas-logo.png");
 const ZIEL = "kfz-gutachter-ingolstadt-ismayil-bas-logo-header";
 const LUFT = 0.04;            // Luft rundherum (Anteil der Motivgröße)
 const HEADER_HOEHE = 168;     // Pixelhöhe der Datei (≥ 3× der Anzeigehöhe von max. 56 px → scharf auf Retina)

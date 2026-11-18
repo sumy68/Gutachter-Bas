@@ -1,0 +1,10 @@
+# GitHub Pages (Jekyll): nur die gebaute Website veröffentlichen.
+# Quellen, Build-Skripte, Rohbilder und Arbeitsdateien gehören ins Repo, aber nicht ins Netz.
+exclude:
+  - README.md
+  - package.json
+  - package-lock.json
+  - node_modules
+  - scripts
+  - src
+  - assets/css/site.css

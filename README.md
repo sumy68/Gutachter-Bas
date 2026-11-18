@@ -19,6 +19,7 @@ Weitere Skripte: `npm run images` (AVIF/WebP/JPG aus `src/images`), `npm run ven
 
 ## Aufbau
 - `src/templates/` – Seiten-Templates (Layout, Startseite, Rechtliches, JSON-LD)
-- `assets/css/site.css` – Stylesheet (wird beim Build inline eingebunden)
+- `assets/css/site.css` – Stylesheet (wird beim Build inline eingebunden, nicht veröffentlicht)
+- `_config.yml` – schließt Quellen, Skripte und Rohbilder von GitHub Pages aus
 - `assets/js/main.js` + `assets/js/ui/` – Navigation, Motion, Slider, Lightbox
 - `assets/js/partikel*.js` – Partikel-Hintergrund (three.js, nach dem Laden nachgeladen)
